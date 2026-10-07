@@ -1,0 +1,9 @@
+{
+  "extends": "@fiery/tsconfig/node.json",
+  "compilerOptions": {
+    "outDir": "dist",
+    "types": ["node"]
+  },
+  "include": ["src/**/*", "../types/src/route-types.ts"],
+  "exclude": ["node_modules", "dist"]
+}

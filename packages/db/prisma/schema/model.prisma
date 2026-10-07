@@ -1,0 +1,120 @@
+///////////////////////////////////////////////////////////////////////////////////////////
+//                                       MODEL                                           //
+///////////////////////////////////////////////////////////////////////////////////////////
+
+enum ModelTier {
+    cloud
+    edge
+
+    @@map("model_tier")
+    @@schema("ai")
+}
+
+enum ModelRole {
+    screener
+    teacher
+    student
+
+    @@map("model_role")
+    @@schema("ai")
+}
+
+enum ModelMetricName {
+    accuracy
+    recall
+    precision
+    falsePositiveRate @map("false_positive_rate")
+    abstentionRate @map("abstention_rate")
+    f1Score @map("f1_score")
+    macrof1Score @map("macro_f1_score")
+
+    @@map("model_metric_name")
+    @@schema("ai")
+}
+
+model ModelArtifact {
+    id                          String @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+    tier                        ModelTier
+    role                        ModelRole
+    stage                       TrainingStage
+    precision                   TrainingPrecision @default(fp32)
+    architecture                String
+    paramCount                  Int @map("param_count")
+    sparsity                    Decimal @db.Decimal(4,3) @default(0)
+    storagePath                 String @map("storage_path")
+    signature                   String
+    signedAt                    DateTime @map("signed_at") @db.Timestamptz(6)
+    promoted                    Boolean @default(false)
+    promotedAt                  DateTime? @map("promoted_at") @db.Timestamptz(6)
+    mlflowRunId                 String? @map("mlflow_run_id")
+    hfRepoId                    String? @map("hf_repo_id")
+    hfRevision                  String? @map("hf_revision")
+
+    sessionId                   String @unique @map("session_id") @db.Uuid
+    session                     TrainingSession @relation(fields: [sessionId], references: [id], onDelete: Restrict, onUpdate: Cascade)
+
+    parentId                    String? @map("parent_id") @db.Uuid
+    parent                      ModelArtifact? @relation("ArtifactLineage", fields: [parentId], references: [id], onDelete: Restrict, onUpdate: Cascade)
+
+    createdAt                   DateTime @default(now()) @map("created_at") @db.Timestamptz(6)
+    updatedAt                   DateTime @default(now()) @updatedAt @map("updated_at") @db.Timestamptz(6)
+
+    children                    ModelArtifact[] @relation("ArtifactLineage")
+    metrics                     ModelMetric[]
+    budget                      ModelBudget?
+    deformationInferences       InferenceDeformation[]
+    seismicInferences           InferenceSeismic[]
+    feedback                    InferenceFeedback[]
+
+    @@index([tier, role, promoted], map: "idx_model_artifact_by_promotion")
+    @@index([tier, role, createdAt(sort: Desc)], map: "idx_model_artifact_by_registry_slot")
+    @@index([stage], map: "idx_model_artifact_by_stage")
+    @@index([parentId], map: "idx_model_artifact_by_parent")
+    @@map("model_artifact")
+    @@schema("ai")
+}
+
+model ModelMetric {
+    name                        ModelMetricName
+    split                       TrainingSplit
+    value                       Decimal @db.Decimal(8,5)
+
+    artifactId                  String @map("artifact_id") @db.Uuid
+    artifact                    ModelArtifact @relation(fields: [artifactId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+
+    createdAt                   DateTime @default(now()) @map("created_at") @db.Timestamptz(6)  
+    updatedAt                   DateTime @default(now()) @updatedAt @map("updated_at") @db.Timestamptz(6)
+
+    @@id([artifactId, split, name])
+    @@index([name, split, value(sort: Desc)], map: "idx_model_metric_by_name")
+    @@index([artifactId, createdAt(sort: Desc)], map: "idx_model_metric_by_artifact")
+    @@map("model_metric")
+    @@schema("ai")
+}
+
+model ModelBudget {
+    id                          String @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+    flashKb                     Decimal @map("flash_kb") @db.Decimal(10,2)
+    flashBudgetKb               Decimal @map("flash_budget_kb") @db.Decimal(10,2)
+    peakRamKb                   Decimal @map("peak_ram_kb") @db.Decimal(10,2)
+    peakRamBudgetKb             Decimal @map("peak_ram_budget_kb") @db.Decimal(10,2)
+    macs                        BigInt
+    macsBudget                  BigInt @map("macs_budget")
+    latencyMs                   Decimal? @map("latency_ms") @db.Decimal(10,3)
+    energyMj                    Decimal? @map("energy_mj") @db.Decimal(12,4)
+    daysAutonomy                Decimal? @map("days_autonomy") @db.Decimal(8,2)
+    passed                      Boolean
+    checkedAt                   DateTime @map("checked_at") @db.Timestamptz(6)
+
+    artifactId                  String @unique @map("artifact_id") @db.Uuid
+    artifact                    ModelArtifact @relation(fields: [artifactId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+
+    createdAt                   DateTime @default(now()) @map("created_at") @db.Timestamptz(6)  
+    updatedAt                   DateTime @default(now()) @updatedAt @map("updated_at") @db.Timestamptz(6)
+
+    @@index([passed, flashKb], map: "idx_model_budget_by_passed")
+    @@map("model_budget")
+    @@schema("ai")
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////

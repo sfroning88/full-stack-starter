@@ -1,0 +1,21 @@
+name: PR Template
+
+on:
+  pull_request:
+    types: [opened]
+
+jobs:
+  apply-template:
+    runs-on: ubuntu-latest
+    permissions:
+      pull-requests: write
+      issues: write
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5
+
+      - name: Assign author and add enhancement label
+        uses: actions/github-script@f28e40c7f34bde8b3046d885e986cb6290c5673b
+        with:
+          script: |
+            await require('./scripts/apply-pr-template.js')({ github, context });

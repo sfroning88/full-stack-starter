@@ -1,0 +1,7 @@
+User-agent: *
+Allow: /
+Disallow: /admin
+Disallow: /auth
+Disallow: /no-access
+
+Sitemap: https://fiery-spirit.earth/sitemap.xml

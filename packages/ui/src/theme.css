@@ -1,0 +1,86 @@
+/**
+ * @fiery/ui — design tokens (volcanic)
+ * Crimson / ash-brown palette
+ */
+
+@theme {
+  /* —— Base palette: basalt ash / ember crimson / pumice —— */
+  --color-fiery-ash-950: #140c09;
+  --color-fiery-ash-900: #1c120e;
+  --color-fiery-ash-800: #2a1a14;
+  --color-fiery-ash-700: #3a241c;
+  --color-fiery-crimson-800: #5c1518;
+  --color-fiery-crimson-700: #7a1c22;
+  --color-fiery-crimson-600: #9b1c2e;
+  --color-fiery-crimson-500: #c41e3a;
+  --color-fiery-crimson-400: #d4564c;
+  --color-fiery-crimson-300: #e08a7c;
+  --color-fiery-crimson-200: #e8c4b4;
+  --color-fiery-crimson-100: #f3ddd2;
+  --color-fiery-crimson-50: #faf1eb;
+  --color-fiery-pumice: #f4ebe4;
+  --color-fiery-white-100: #fffefc;
+  --color-fiery-white-600: #9c948c;
+  --color-fiery-white-950: #1c1816;
+
+  /* —— Semantic (maps to app chrome & Tailwind utilities) —— */
+  --color-background: var(--color-fiery-pumice);
+  --color-foreground: var(--color-fiery-ash-900);
+  --color-card: var(--color-fiery-white-100);
+  --color-card-foreground: var(--color-fiery-ash-900);
+  --color-surface-dark: #1a120f;
+  --color-surface-dark-foreground: #fffefc;
+  --color-primary: var(--color-fiery-ash-800);
+  --color-primary-foreground: var(--color-fiery-white-100);
+  --color-secondary: var(--color-fiery-crimson-100);
+  --color-secondary-foreground: var(--color-fiery-ash-800);
+  --color-muted: var(--color-fiery-crimson-100);
+  --color-muted-foreground: var(--color-fiery-crimson-800);
+  --color-accent: var(--color-fiery-crimson-600);
+  --color-accent-foreground: var(--color-fiery-white-100);
+  --color-border: var(--color-fiery-crimson-200);
+  --color-input: var(--color-fiery-crimson-200);
+  --color-ring: var(--color-fiery-crimson-500);
+
+  /* —— Surfaces: lava field / ash fall —— */
+  --background-image-fiery-hero: linear-gradient(
+    165deg,
+    var(--color-fiery-crimson-50) 0%,
+    var(--color-fiery-white-100) 38%,
+    var(--color-fiery-pumice) 100%
+  );
+  --background-image-fiery-ribbon: linear-gradient(
+    90deg,
+    var(--color-fiery-ash-800) 0%,
+    var(--color-fiery-crimson-600) 50%,
+    var(--color-fiery-crimson-400) 100%
+  );
+  --background-image-fiery-deep: linear-gradient(
+    180deg,
+    var(--color-fiery-ash-900) 0%,
+    var(--color-fiery-crimson-800) 100%
+  );
+
+  /* —— Type: display = Trajan-style stack (Cinzel from next/font in app); body = Geist —— */
+  --font-display:
+    var(--font-focus-display), "Trajan Pro", "Trajan", "Times New Roman", Times,
+    serif;
+  --font-sans: var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif;
+  --font-mono:
+    var(--font-geist-mono), ui-monospace, SFMono-Regular, Menlo, monospace;
+
+  /* —— Type: data UI pairing (DM Sans / DM Mono via next/font CSS vars) —— */
+  --font-data:
+    var(--font-dm-sans), "DM Sans", ui-sans-serif, system-ui, sans-serif;
+  --font-data-mono:
+    var(--font-dm-mono), "DM Mono", ui-monospace, SFMono-Regular, Menlo,
+    monospace;
+
+  /* —— Radii —— */
+  --radius-sm: 0.25rem;
+  --radius-md: 0.375rem;
+  --radius-lg: 0.5rem;
+  --radius-xl: 0.75rem;
+  --radius-2xl: 1rem;
+  --radius-3xl: 1.5rem;
+}

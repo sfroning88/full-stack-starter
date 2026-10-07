@@ -1,0 +1,54 @@
+name: Build with Modal
+
+on:
+    push:
+        branches: [main, master]
+        paths:
+            - "apps/trainer/**"
+            - "packages/python/**"
+            - ".github/workflows/deploy-with-modal.yml"
+
+jobs:
+    modal-deploy:
+        name: Deploy apps/fiery-trainer
+        if: false
+        runs-on: ubuntu-latest
+        defaults:
+            run:
+                working-directory: apps/trainer
+        steps:
+        - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5
+
+        - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065
+          with:
+            python-version: "3.13"
+
+        - name: Install Modal CLI
+          run: pip install "modal>=1.5.4"
+
+        - name: Deploy fiery-trainer
+          env:
+            MODAL_TOKEN_ID: ${{ secrets.MODAL_TOKEN_ID }}
+            MODAL_TOKEN_SECRET: ${{ secrets.MODAL_TOKEN_SECRET }}
+          run: modal deploy modal_app.py
+
+    modal-smoke:
+        name: Modal smoke (T4)
+        if: false
+        needs: modal-deploy
+        runs-on: ubuntu-latest
+        defaults:
+            run:
+                working-directory: apps/trainer
+        steps:
+        - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5
+        - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065
+          with:
+            python-version: "3.13"
+        - name: Install Modal CLI
+          run: pip install "modal>=1.5.4"
+        - name: Smoke train_deformation.remote
+          env:
+            MODAL_TOKEN_ID: ${{ secrets.MODAL_TOKEN_ID }}
+            MODAL_TOKEN_SECRET: ${{ secrets.MODAL_TOKEN_SECRET }}
+          run: modal run modal_app.py       

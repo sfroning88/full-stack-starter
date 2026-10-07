@@ -1,0 +1,85 @@
+name: Playwright CI
+
+on:
+    pull_request:
+        branches: [main, master]
+        paths:
+        - "apps/dashboard/**"
+
+jobs:
+    playwright:
+        runs-on: ubuntu-latest
+        timeout-minutes: 10
+        permissions:
+            contents: read
+            deployments: read
+            pull-requests: write
+            issues: write
+        steps:
+        -   name: Check out code
+            uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5
+            with:
+                fetch-depth: 0
+                persist-credentials: false
+
+        -   name: Setup PNPM
+            uses: pnpm/action-setup@b906affcce14559ad1aafd4ab0e942779e9f58b1
+
+        -   uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
+            with:
+                node-version: "20"
+                cache: "pnpm"
+
+        -   name: Install dependencies
+            run: pnpm install --frozen-lockfile
+
+        -   name: Generate Prisma Client
+            run: pnpm --filter @fiery/db run db:generate
+
+        -   name: Wait for Vercel preview deployment
+            id: vercel
+            uses: actions/github-script@f28e40c7f34bde8b3046d885e986cb6290c5673b
+            env:
+                VERCEL_AUTOMATION_BYPASS_SECRET: ${{ secrets.VERCEL_AUTOMATION_BYPASS_SECRET }}
+            with:
+                github-token: ${{ secrets.GITHUB_TOKEN }}
+                script: |
+                    await require('./scripts/wait-for-vercel-preview.js')({ github, context, core });
+
+        -   name: Install Chromium
+            run: pnpm --filter @fiery/dashboard exec playwright install chromium --with-deps
+
+        -   name: Run smoke tests
+            id: smoke
+            run: pnpm --filter @fiery/dashboard test:e2e
+            continue-on-error: true
+            env:
+                CI: true
+                VERCEL_AUTOMATION_BYPASS_SECRET: ${{ secrets.VERCEL_AUTOMATION_BYPASS_SECRET }}
+                PLAYWRIGHT_BASE_URL: ${{ steps.vercel.outputs.url }}
+                PLAYWRIGHT_EMAIL: ${{ secrets.PLAYWRIGHT_EMAIL }}
+                PLAYWRIGHT_PASSWORD: ${{ secrets.PLAYWRIGHT_PASSWORD }}
+
+        -   name: Summarize results
+            if: always() && github.event_name == 'pull_request'
+            run: bash scripts/summarize-playwright-results.sh apps/dashboard/playwright-report/results.json /tmp/playwright-results.txt
+
+        -   name: Post PR comment
+            if: always() && github.event_name == 'pull_request'
+            uses: actions/github-script@f28e40c7f34bde8b3046d885e986cb6290c5673b
+            with:
+                github-token: ${{ secrets.GITHUB_TOKEN }}
+                script: |
+                    await require('./scripts/post-playwright-comment.js')({ github, context, core });
+
+        -   name: Fail if smoke tests failed
+            if: steps.smoke.outcome == 'failure'
+            run: exit 1
+
+        -   name: Upload report artifact
+            if: always()
+            uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+            with:
+                name: playwright-report
+                path: apps/dashboard/playwright-report/
+                retention-days: 3

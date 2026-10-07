@@ -1,0 +1,166 @@
+previews:
+  generation: off
+services:
+- type: web
+  runtime: docker
+  name: fiery-backend-api
+  plan: free
+  numInstances: 1
+  dockerfilePath: apps/backend/Dockerfile
+  buildFilter:
+    paths:
+      - apps/backend/**
+      - packages/python/**
+  envVars:
+    - fromGroup: Fiery-Environment
+    - key: SERVICE_TYPE
+      value: api
+    - key: BACKEND_API_URL
+      value: https://fiery-backend-api.onrender.com
+      previewValue: https://fiery-backend-api-staging.onrender.com
+    - key: AI_API_URL
+      value: https://fiery-ai-api.onrender.com
+      previewValue: https://fiery-ai-api-staging.onrender.com
+    - key: JOB_DOMAIN
+      value: inference
+    - key: HF_HUB_DISABLE_XET
+      value: "1"
+    - key: HF_HUB_OFFLINE
+      value: "1"
+
+
+- type: worker
+  runtime: docker
+  name: fiery-backend-worker
+  plan: free
+  numInstances: 1
+  dockerfilePath: apps/backend/Dockerfile
+  buildFilter:
+    paths:
+      - apps/backend/**
+      - packages/python/**
+  envVars:
+    - fromGroup: Fiery-Environment
+    - key: SERVICE_TYPE
+      value: worker
+    - key: BACKEND_API_URL
+      value: https://fiery-backend-api.onrender.com
+      previewValue: https://fiery-backend-api-staging.onrender.com
+    - key: AI_API_URL
+      value: https://fiery-ai-api.onrender.com
+      previewValue: https://fiery-ai-api-staging.onrender.com
+    - key: TRAINER_API_URL
+      value: https://fiery-trainer-api.modal.run
+      previewValue: https://fiery-trainer-api-staging.modal.run
+    - key: JOB_DOMAIN
+      value: inference
+
+- type: cron
+  runtime: docker
+  name: fiery-backend-model-promote
+  schedule: "0 */6 * * *"
+  plan: free
+  dockerfilePath: apps/backend/Dockerfile
+  buildFilter:
+    paths:
+      - apps/backend/**
+      - packages/python/**
+  dockerCommand: python -m src.jobs.dispatch_model_promote
+  envVars:
+    - fromGroup: Fiery-Environment
+    - key: BACKEND_API_URL
+      value: https://fiery-backend-api.onrender.com
+      previewValue: https://fiery-backend-api-staging.onrender.com
+    - key: AI_API_URL
+      value: https://fiery-ai-api.onrender.com
+      previewValue: https://fiery-ai-api-staging.onrender.com
+    - key: JOB_DOMAIN
+      value: registry
+
+- type: cron
+  runtime: docker
+  name: fiery-backend-model-reload
+  schedule: "30 */6 * * *"
+  plan: free
+  dockerfilePath: apps/backend/Dockerfile
+  buildFilter:
+    paths:
+      - apps/backend/**
+      - packages/python/**
+  dockerCommand: python -m src.jobs.dispatch_model_reload
+  envVars:
+    - fromGroup: Fiery-Environment
+    - key: BACKEND_API_URL
+      value: https://fiery-backend-api.onrender.com
+      previewValue: https://fiery-backend-api-staging.onrender.com
+    - key: AI_API_URL
+      value: https://fiery-ai-api.onrender.com
+      previewValue: https://fiery-ai-api-staging.onrender.com
+    - key: JOB_DOMAIN
+      value: registry
+
+- type: cron
+  runtime: docker
+  name: fiery-backend-inference-batch-screener
+  schedule: "* * 1 * *"
+  plan: free
+  dockerfilePath: apps/backend/Dockerfile
+  buildFilter:
+    paths:
+      - apps/backend/**
+      - packages/python/**
+  dockerCommand: python -m src.jobs.dispatch_inference_batch_screener
+  envVars:
+    - fromGroup: Fiery-Environment
+    - key: BACKEND_API_URL
+      value: https://fiery-backend-api.onrender.com
+      previewValue: https://fiery-backend-api-staging.onrender.com
+    - key: AI_API_URL
+      value: https://fiery-ai-api.onrender.com
+      previewValue: https://fiery-ai-api-staging.onrender.com
+    - key: JOB_DOMAIN
+      value: inference
+
+- type: cron
+  runtime: docker
+  name: fiery-backend-inference-batch-teacher
+  schedule: "* * 3 * *"
+  plan: free
+  dockerfilePath: apps/backend/Dockerfile
+  buildFilter:
+    paths:
+      - apps/backend/**
+      - packages/python/**
+  dockerCommand: python -m src.jobs.dispatch_inference_batch_teacher
+  envVars:
+    - fromGroup: Fiery-Environment
+    - key: BACKEND_API_URL
+      value: https://fiery-backend-api.onrender.com
+      previewValue: https://fiery-backend-api-staging.onrender.com
+    - key: AI_API_URL
+      value: https://fiery-ai-api.onrender.com
+      previewValue: https://fiery-ai-api-staging.onrender.com
+    - key: JOB_DOMAIN
+      value: inference
+
+- type: cron
+  runtime: docker
+  name: fiery-backend-inference-batch-student
+  schedule: "* * 5 * *"
+  plan: free
+  dockerfilePath: apps/backend/Dockerfile
+  buildFilter:
+    paths:
+      - apps/backend/**
+      - packages/python/**
+  dockerCommand: python -m src.jobs.dispatch_inference_batch_student
+  envVars:
+    - fromGroup: Fiery-Environment
+    - key: BACKEND_API_URL
+      value: https://fiery-backend-api.onrender.com
+      previewValue: https://fiery-backend-api-staging.onrender.com
+    - key: AI_API_URL
+      value: https://fiery-ai-api.onrender.com
+      previewValue: https://fiery-ai-api-staging.onrender.com
+    - key: JOB_DOMAIN
+      value: inference

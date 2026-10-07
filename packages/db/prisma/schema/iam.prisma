@@ -1,0 +1,23 @@
+///////////////////////////////////////////////////////////////////////////////////////////
+//                                    IAM + RBAC                                         //
+///////////////////////////////////////////////////////////////////////////////////////////
+
+model User {
+    id                          String @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+    name                        String
+    email                       String @unique
+    phone                       String?
+    isActive                    Boolean @default(false) @map("is_active")
+    isPlatformAdmin             Boolean @default(false) @map("is_platform_admin")
+
+    createdAt                   DateTime @default(now()) @map("created_at") @db.Timestamptz(6)
+    updatedAt                   DateTime @default(now()) @updatedAt @map("updated_at") @db.Timestamptz(6)
+
+    feedback                    InferenceFeedback[]
+
+    @@index([isActive], map: "idx_users_is_active")
+    @@map("users")
+    @@schema("iam")
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////

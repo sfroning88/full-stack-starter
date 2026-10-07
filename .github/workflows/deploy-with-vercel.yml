@@ -1,0 +1,55 @@
+name: Build with Vercel
+
+on:
+  push:
+    branches: [main, master]
+  pull_request:
+    branches: [main, master]
+
+jobs:
+  build:
+    name: Build apps/dashboard
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      statuses: write
+      actions: read
+
+    env:
+      SKIP_ENV_VALIDATION: "1"
+      DATABASE_URL: postgresql://postgres:postgres@127.0.0.1:5432/ci
+      NEXT_PUBLIC_APP_URL: http://localhost:3000
+      NEXT_PUBLIC_SUPABASE_URL: https://placeholder.supabase.co
+      NEXT_PUBLIC_SUPABASE_ANON_KEY: ey_placeholder
+      NEXT_PUBLIC_POSTHOG_KEY: phc_ci_placeholder
+      NEXT_PUBLIC_POSTHOG_HOST: https://us.i.posthog.com
+      SUPABASE_SERVICE_ROLE_KEY: ey_placeholder
+      BACKEND_API_URL: https://backend.example.invalid
+      AI_API_URL: https://ai.example.invalid
+      AUTH_TOKEN: ci-placeholder
+      DIRECT_URL: postgresql://postgres:postgres@127.0.0.1:5432/ci
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@b906affcce14559ad1aafd4ab0e942779e9f58b1
+
+      - name: Setup Node.js
+        uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
+        with:
+          node-version: "20"
+          cache: pnpm
+          cache-dependency-path: pnpm-lock.yaml
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Build dashboard
+        run: pnpm exec turbo run build --filter=@fiery/dashboard
+
+      - name: Notify Vercel
+        uses: vercel/repository-dispatch/actions/status@30f760c6640485cd92f8c785ef361382555fb712
+        with:
+          name: "Vercel - fiery-spirit: deploy-with-vercel"

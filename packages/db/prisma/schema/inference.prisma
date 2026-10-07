@@ -1,0 +1,112 @@
+///////////////////////////////////////////////////////////////////////////////////////////
+//                                       INFERENCE                                       //
+///////////////////////////////////////////////////////////////////////////////////////////
+
+enum InferenceAbstainReason {
+    lowCoherence @map("low_coherence")
+    lowSnr @map("low_snr")
+    transformRejected @map("transform_rejected")
+    contractMismatch @map("contract_mismatch")
+    lowConfidence @map("low_confidence")
+
+    @@map("inference_abstain_reason")
+    @@schema("ai")
+}
+
+model InferenceDeformation {
+    score                       Decimal? @db.Decimal(6,5)
+    label                       TrainingDeformationLabel?
+    thresholdUsed               Decimal @map("threshold_used") @db.Decimal(6,5)
+    abstentionBand              Decimal @map("abstention_band") @db.Decimal(6,5)
+    abstained                   Boolean @default(false)
+    abstainedReason             InferenceAbstainReason? @map("abstained_reason")
+    transformHash               String @map("transform_hash") @db.VarChar(64)
+    opVersion                   Int @map("op_version")
+    latencyMs                   Decimal? @map("latency_ms") @db.Decimal(10,3)
+    inferredAt                  DateTime @map("inferred_at") @db.Timestamptz(6)
+
+    artifactId                  String @map("artifact_id") @db.Uuid
+    artifact                    ModelArtifact @relation(fields: [artifactId], references: [id], onDelete: Restrict, onUpdate: Cascade)
+
+    interferogramId             String @map("interferogram_id") @db.Uuid
+    interferogram               TrainingInterferogram @relation(fields: [interferogramId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+
+    createdAt                   DateTime @default(now()) @map("created_at") @db.Timestamptz(6)  
+    updatedAt                   DateTime @default(now()) @updatedAt @map("updated_at") @db.Timestamptz(6)
+
+    feedback                    InferenceFeedback[]
+
+    @@id([artifactId, interferogramId])
+    @@index([interferogramId], map: "idx_inference_deformation_by_interferogram")
+    @@index([interferogramId, artifactId], map: "idx_inference_deformation_by_artifact")
+    @@index([artifactId, abstained], map: "idx_inference_deformation_abstained")
+    @@index([artifactId, abstainedReason], map: "idx_inference_deformation_abstained_reason")
+    @@index([createdAt(sort: Desc)], map: "idx_inference_deformation_recency")
+    @@index([label, score(sort: Desc)], map: "idx_inference_deformation_by_label")
+    @@map("inference_deformation")
+    @@schema("ai")
+}
+
+model InferenceSeismic {
+    label                       TrainingSeismicLabel?
+    probabilities               Decimal[] @db.Decimal(6,5)
+    classOrder                  TrainingSeismicLabel[] @map("class_order")
+    thresholdUsed               Decimal @map("threshold_used") @db.Decimal(6,5)
+    abstentionBand              Decimal @map("abstention_band") @db.Decimal(6,5)
+    abstained                   Boolean @default(false)
+    abstainedReason             InferenceAbstainReason? @map("abstained_reason")
+    transformHash               String @map("transform_hash") @db.VarChar(64)
+    opVersion                   Int @map("op_version")
+    latencyMs                   Decimal? @map("latency_ms") @db.Decimal(10,3)
+    inferredAt                  DateTime @map("inferred_at") @db.Timestamptz(6)
+
+    artifactId                  String @map("artifact_id") @db.Uuid
+    artifact                    ModelArtifact @relation(fields: [artifactId], references: [id], onDelete: Restrict, onUpdate: Cascade)
+
+    seismicEventId              String @map("seismic_event_id") @db.Uuid
+    seismicEvent                TrainingSeismicEvent @relation(fields: [seismicEventId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+
+    createdAt                   DateTime @default(now()) @map("created_at") @db.Timestamptz(6)  
+    updatedAt                   DateTime @default(now()) @updatedAt @map("updated_at") @db.Timestamptz(6)
+
+    feedback                    InferenceFeedback[]
+
+    @@id([artifactId, seismicEventId])
+    @@index([seismicEventId], map: "idx_inference_seismic_by_event")
+    @@index([seismicEventId, artifactId], map: "idx_inference_seismic_by_artifact")
+    @@index([artifactId, abstained], map: "idx_inference_seismic_abstained")
+    @@index([artifactId, abstainedReason], map: "idx_inference_seismic_abstained_reason")
+    @@index([createdAt(sort: Desc)], map: "idx_inference_seismic_recency")
+    @@index([label], map: "idx_inference_seismic_by_label")
+    @@map("inference_seismic")
+    @@schema("ai")
+}
+
+model InferenceFeedback {
+    id                          String @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+    agreed                      Boolean
+    correctedDeformation        TrainingDeformationLabel? @map("corrected_deformation")
+    correctedSeismic            TrainingSeismicLabel? @map("corrected_seismic")
+    note                        String?
+
+    interferogramId             String? @map("interferogram_id") @db.Uuid
+    deformation                 InferenceDeformation? @relation(fields: [artifactId, interferogramId], references: [artifactId, interferogramId], onDelete: Restrict, onUpdate : Cascade)
+
+    seismicEventId              String? @map("seismic_event_id") @db.Uuid
+    seismic                     InferenceSeismic? @relation(fields: [artifactId, seismicEventId], references: [artifactId, seismicEventId], onDelete: Restrict, onUpdate: Cascade)
+
+    userId                      String? @map("user_id") @db.Uuid
+    user                        User? @relation(fields: [userId], references: [id], onDelete: SetNull, onUpdate: Cascade)
+
+    artifactId                  String @map("artifact_id") @db.Uuid
+    artifact                    ModelArtifact @relation(fields: [artifactId], references: [id], onDelete: Restrict, onUpdate: Cascade)
+
+    createdAt                   DateTime @default(now()) @map("created_at") @db.Timestamptz(6)  
+    updatedAt                   DateTime @default(now()) @updatedAt @map("updated_at") @db.Timestamptz(6)
+
+    @@index([userId], map: "idx_inference_feedback_by_user")
+    @@map("inference_feedback")
+    @@schema("ai")
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////

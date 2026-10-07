@@ -1,0 +1,4 @@
+#!/usr/bin/env sh
+set -e
+cd "$(dirname "$0")/.." || exit 1
+sh scripts/husky/pre-commit.sh

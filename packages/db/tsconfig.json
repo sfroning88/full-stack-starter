@@ -1,0 +1,9 @@
+{
+  "extends": "@fiery/tsconfig/node.json",
+  "compilerOptions": {
+    "outDir": "dist",
+    "types": ["node"]
+  },
+  "include": ["src/**/*", "prisma.config.ts"],
+  "exclude": ["node_modules", "dist", "src/generated"]
+}

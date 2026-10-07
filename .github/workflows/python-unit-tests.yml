@@ -1,0 +1,44 @@
+name: Python Unit Tests CI
+
+on:
+    workflow_dispatch:
+    pull_request:
+        branches: [main, master]
+        paths:
+        - "apps/ai/**"
+        - "apps/backend/**"
+        - "apps/trainer/**"
+        - "packages/python/**"
+        - "scripts/python-unit-tests.sh"
+        - "scripts/setup-python-venvs.sh"
+        - "scripts/setup-pytest-in-venvs.sh"
+        - ".github/workflows/python-unit-tests.yml"
+
+jobs:
+    unit-tests:
+        runs-on: ubuntu-latest
+        timeout-minutes: 20
+        permissions:
+            contents: read
+        steps:
+        -   name: Check out code
+            uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5
+            with:
+                fetch-depth: 0
+                persist-credentials: false
+
+        -   name: Setup Python
+            uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065
+            with:
+                python-version: "3.13"
+
+        -   name: Set up Python venvs
+            run: bash scripts/setup-python-venvs.sh
+
+        -   name: Set up Pytest
+            run: bash scripts/setup-pytest-in-venvs.sh
+
+        -   name: Run unit tests
+            run: bash scripts/python-unit-tests.sh all
+            env:
+                CI: true

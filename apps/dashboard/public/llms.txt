@@ -1,0 +1,7 @@
+# Fiery Spirit
+
+Dashboard for two-tiered detection of volcanic unrest from satellite deformation and seismic waveforms.
+
+Repo: https://github.com/sfroning88/fiery-spirit
+
+Do not scrape authenticated or utility routes: /admin, /auth, /no-access

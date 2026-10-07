@@ -1,0 +1,26 @@
+{
+  "name": "@fiery/services",
+  "version": "0.0.1",
+  "private": true,
+  "main": "./src/index.ts",
+  "types": "./src/index.ts",
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "scripts": {
+    "type-check": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@fiery/config": "workspace:*",
+    "@fiery/db": "workspace:*",
+    "@fiery/types": "workspace:*",
+    "@fiery/utils": "workspace:*",
+    "@supabase/supabase-js": "^2.49.1",
+    "server-only": "^0.0.1"
+  },
+  "devDependencies": {
+    "@fiery/tsconfig": "workspace:*",
+    "@types/node": "^22.10.0",
+    "typescript": "5.9.3"
+  }
+}

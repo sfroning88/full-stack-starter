@@ -1,0 +1,74 @@
+{
+  "name": "focus-platform",
+  "version": "0.0.1",
+  "private": true,
+  "packageManager": "pnpm@10.34.5",
+  "engines": {
+    "node": ">=20.0.0",
+    "pnpm": ">=10.0.0"
+  },
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
+  "scripts": {
+    "dev": "turbo run dev --filter=@fiery/dashboard --log-order=stream",
+    "build": "turbo run build --filter=@fiery/dashboard --log-order=stream",
+    "lint": "turbo run lint --filter=@fiery/dashboard --log-order=stream",
+    "build:app": "pnpm --filter @fiery/dashboard run build",
+    "type-check": "pnpm --filter @fiery/config --filter @fiery/types --filter @fiery/db --filter @fiery/services --filter @fiery/utils --filter @fiery/auth --filter @fiery/dashboard run type-check",
+    "format": "prettier --write \"**/*.{ts,tsx,md,json}\"",
+    "use:local": "node scripts/env-setup.js local",
+    "use:prod": "node scripts/env-setup.js prod",
+    "redis:up": "./scripts/local-redis.sh up",
+    "redis:down": "./scripts/local-redis.sh down",
+    "redis:nuke": "./scripts/local-redis.sh nuke",
+    "redis:status": "./scripts/local-redis.sh status",
+    "db:generate": "pnpm --filter @fiery/db db:generate",
+    "db:migrate": "pnpm --filter @fiery/db db:migrate",
+    "db:deploy": "pnpm --filter @fiery/db db:deploy",
+    "db:prisma": "pnpm --filter @fiery/db exec prisma",
+    "db:studio": "pnpm --filter @fiery/db db:studio",
+    "postinstall": "pnpm db:generate",
+    "check:python-format": "./scripts/check-python-format.sh",
+    "check:migration-safety": "./scripts/check-migration-safety.sh",
+    "check:unit-tests": "./scripts/diff-python-tests.sh",
+    "git:pre-commit": "sh scripts/husky/pre-commit.sh",
+    "git:pre-push": "sh scripts/husky/pre-push.sh",
+    "clean": "./scripts/clean.sh",
+    "prepare": "husky"
+  },
+  "devDependencies": {
+    "@eslint/js": "10.0.1",
+    "@next/eslint-plugin-next": "15.5.14",
+    "@typescript-eslint/eslint-plugin": "8.70.0",
+    "@typescript-eslint/parser": "8.70.0",
+    "dotenv-cli": "11.0.0",
+    "eslint": "10.10.0",
+    "globals": "17.12.0",
+    "husky": "9.1.7",
+    "lint-staged": "16.4.0",
+    "prettier": "3.9.6",
+    "prettier-plugin-tailwindcss": "0.8.1",
+    "prisma": "7.5.0",
+    "tsx": "4.23.13",
+    "turbo": "2.10.12",
+    "typescript": "5.9.3",
+    "typescript-eslint": "8.70.0"
+  },
+  "lint-staged": {
+    "*.{ts,tsx,js,jsx}": [
+      "prettier --write",
+      "eslint --max-warnings=0 --no-ignore"
+    ],
+    "*.{json,md,css}": [
+      "prettier --write"
+    ],
+    "*.py": [
+      "black"
+    ]
+  },
+  "prisma": {
+    "schema": "packages/db/prisma/schema"
+  }
+}

@@ -1,0 +1,92 @@
+name: React Doctor
+
+on:
+  pull_request:
+    branches: [main, master]
+    paths:
+      - "apps/dashboard/**"
+      - "packages/**"
+
+jobs:
+  changes:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pull-requests: read
+    outputs:
+      dashboard: ${{ steps.filter.outputs.dashboard }}
+    steps:
+      - uses: dorny/paths-filter@d1c1ffe0248fe513906c8e24db8ea791d46f8590
+        id: filter
+        with:
+          filters: |
+            dashboard:
+              - 'apps/dashboard/**'
+              - 'packages/**'
+
+  react-doctor:
+    needs: changes
+    if: needs.changes.outputs.dashboard == 'true'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pull-requests: write
+      issues: write
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5
+        with:
+          fetch-depth: 0
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@b906affcce14559ad1aafd4ab0e942779e9f58b1
+
+      - name: Setup Node.js
+        uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
+        with:
+          node-version: "22"
+          cache: pnpm
+          cache-dependency-path: pnpm-lock.yaml
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Generate Prisma Client
+        run: pnpm --filter @fiery/db run db:generate
+
+      - name: Build project list
+        id: projects
+        run: |
+          list=""
+          [ "${{ needs.changes.outputs.dashboard }}" == "true" ] && list="${list}@fiery/dashboard,"
+          echo "projects=${list%,}" >> "$GITHUB_OUTPUT"
+
+      - name: Install React Doctor with pinned oxlint
+        run: |
+          mkdir -p /tmp/react-doctor-runner
+          cd /tmp/react-doctor-runner
+          npm init -y
+          npm pkg set overrides.oxlint=1.57.0
+          npm install react-doctor@0.0.29 oxlint@1.57.0
+
+      - name: Run React Doctor
+        id: doctor
+        run: |
+          FLAGS="--fail-on error --verbose"
+          FLAGS="$FLAGS --project ${{ steps.projects.outputs.projects }}"
+          FLAGS="$FLAGS --diff ${{ github.base_ref }}"
+          RD="/tmp/react-doctor-runner/node_modules/.bin/react-doctor"
+          "$RD" . $FLAGS 2>&1 | tee /tmp/react-doctor-output.txt
+          SCORE=$("$RD" . --score 2>/dev/null | tail -1 | tr -d '[:space:]')
+          echo "score=${SCORE:-0}" >> "$GITHUB_OUTPUT"
+
+      - name: Post filtered comment
+        uses: actions/github-script@f28e40c7f34bde8b3046d885e986cb6290c5673b
+        if: always() && github.event_name == 'pull_request'
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            await require('./scripts/post-react-doctor-comment.js')({ github, context });
+
+      - name: Print score
+        run: echo "Health score ${{ steps.doctor.outputs.score }}"
