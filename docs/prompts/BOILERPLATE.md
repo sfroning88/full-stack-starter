@@ -1,4 +1,4 @@
-# Cursor Agent
+# AI Coding Agents
 
 ## Workspace
 
@@ -6,10 +6,9 @@
 
 - `Next.js` with `TypeScript` for **frontends** deployed to `Vercel`
 - `FastAPI` with `Python` for **backends** deployed to `Render`
-- `Node.js` with `TypeScript` for **internal needs** deployed to `Render`
 - `Supabase` with `PostgreSQL` for **database**
 - `Prisma ORM` with `TypeScript` for **schema migrations**
-- `Docker` with `Redis` for **local development**
+- `Docker` with `Redis` + `Postgres` for **local development**
 - `Environment variables` are managed at **root level** with `pnpm use:[local|dev|prod]`
 - Each app has a **symbolically linked** environment to the root `.env`
 - Shared packages for `TypeScript` files and config under `./packages/*` as `aliases`

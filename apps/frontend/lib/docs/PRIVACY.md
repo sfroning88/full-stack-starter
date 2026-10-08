@@ -31,9 +31,8 @@ No third-party cookies, tracking pixels, or advertising cookies are used.
 
 This site uses the following third-party services:
 
-- **Vercel** — Hosting and deployment
-- **PostHog** — Anonymous analytics (page visits, basic events). See [PostHog's Privacy Policy](https://posthog.com/privacy)
-- **Supabase** — User authentication (accounts, sign-in) and database connection. See [Supabase's Privacy Policy](https://supabase.com/privacy)
+- **Vercel** — Hosting and deployment; see [Vercel's Privacy Policy](https://vercel.com/legal/privacy-notice)
+- **Supabase** — User authentication, database connection; see [Supabase's Privacy Policy](https://supabase.com/privacy)
 
 No data is shared with advertisers. I do not control how these services collect or use data when you interact with content they provide.
 

@@ -18,16 +18,13 @@ jobs:
     env:
       SKIP_ENV_VALIDATION: "1"
       DATABASE_URL: postgresql://postgres:postgres@127.0.0.1:5432/ci
+      DIRECT_URL: postgresql://postgres:postgres@127.0.0.1:5432/ci
       NEXT_PUBLIC_APP_URL: http://localhost:3000
       NEXT_PUBLIC_SUPABASE_URL: https://placeholder.supabase.co
       NEXT_PUBLIC_SUPABASE_ANON_KEY: ey_placeholder
-      NEXT_PUBLIC_POSTHOG_KEY: phc_ci_placeholder
-      NEXT_PUBLIC_POSTHOG_HOST: https://us.i.posthog.com
       SUPABASE_SERVICE_ROLE_KEY: ey_placeholder
       BACKEND_API_URL: https://backend.example.invalid
-      AI_API_URL: https://ai.example.invalid
       AUTH_TOKEN: ci-placeholder
-      DIRECT_URL: postgresql://postgres:postgres@127.0.0.1:5432/ci
 
     steps:
       - name: Checkout code

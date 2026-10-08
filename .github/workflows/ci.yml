@@ -44,7 +44,7 @@ jobs:
         run: pnpm lint
 
       - name: Build
-        run: bash scripts/ci-turbo-build.sh
+        run: bash scripts/cicd/ci-turbo-build.sh
         env:
           CI_EVENT_NAME: ${{ github.event_name }}
           CI_BASE_REF: ${{ github.base_ref }}
@@ -54,11 +54,7 @@ jobs:
           NEXT_PUBLIC_SUPABASE_URL: ${{ secrets.NEXT_PUBLIC_SUPABASE_URL }}
           NEXT_PUBLIC_SUPABASE_ANON_KEY: ${{ secrets.NEXT_PUBLIC_SUPABASE_ANON_KEY }}
           SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
-          NEXT_PUBLIC_POSTHOG_KEY: ${{ secrets.NEXT_PUBLIC_POSTHOG_KEY }}
-          NEXT_PUBLIC_POSTHOG_HOST: ${{ secrets.NEXT_PUBLIC_POSTHOG_HOST }}
           DATABASE_URL: ${{ secrets.DATABASE_URL }}
           DIRECT_URL: ${{ secrets.DIRECT_URL }}
           BACKEND_API_URL: ${{ secrets.BACKEND_API_URL }}
-          AI_API_URL: ${{ secrets.AI_API_URL }}
-          TRAINER_API_URL: ${{ secrets.TRAINER_API_URL }}
           AUTH_TOKEN: ${{ secrets.AUTH_TOKEN }}
