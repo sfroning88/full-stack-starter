@@ -13,8 +13,6 @@ model User {
     createdAt                   DateTime @default(now()) @map("created_at") @db.Timestamptz(6)
     updatedAt                   DateTime @default(now()) @updatedAt @map("updated_at") @db.Timestamptz(6)
 
-    feedback                    InferenceFeedback[]
-
     @@index([isActive], map: "idx_users_is_active")
     @@map("users")
     @@schema("iam")

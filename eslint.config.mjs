@@ -36,7 +36,7 @@ const actionFileRules = {
         },
         {
             selector: `ExportNamedDeclaration > VariableDeclaration > VariableDeclarator[id.name=/Action$/]:not(:has(CallExpression[callee.name=/^(${actionGuardNames})$/]))`,
-            message: `Exported *Action values must be created via createPublicAction, selfUserAction, or platformAdminAction (from @fiery/auth/server).`,
+            message: `Exported *Action values must be created via createPublicAction, selfUserAction, or platformAdminAction (from @my-project/auth/server).`,
         },
     ],
 };
@@ -46,7 +46,7 @@ const apiRouteRules = {
         "error",
         {
             selector: `ExportNamedDeclaration > FunctionDeclaration[id.name=/^(GET|POST|PUT|PATCH|DELETE|OPTIONS|HEAD)$/]:not(:has(CallExpression[callee.name=/^(${routeAuthNames})$/]))`,
-            message: `Route handlers must call requireUser or requirePlatformAdmin (from @fiery/auth/server).`,
+            message: `Route handlers must call requireUser or requirePlatformAdmin (from @my-project/auth/server).`,
         },
     ],
 };
@@ -100,7 +100,7 @@ export default defineConfig([
         rules: apiRouteRules,
     },
     {
-        files: ["scripts/*.js"],
+        files: ["scripts/**/*.js"],
         languageOptions: {
             globals: {
                 ...globals.node,

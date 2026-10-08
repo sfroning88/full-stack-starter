@@ -1,6 +1,6 @@
 # Identity Access Management
 
-Last updated: **September 2026**
+Last updated: **October 2026**
 
 ## Users
 
@@ -29,8 +29,8 @@ The platform relies on `Supabase client` for sessions. This is basic and secure 
 Interaction with the platform is three basic levels:
 
 - The `User Session` is required to do anything managed by `Supabase client`
-- Every `server action` within the platform is guarded by `@fiery/auth`
-- All `env secrets` are stored `server-only` from `@fiery/config`
+- Every `server action` within the platform is guarded by `@my-project/auth`
+- All `env secrets` are stored `server-only` from `@my-project/config`
 
 Theres a couple basic methods for auth checks:
 

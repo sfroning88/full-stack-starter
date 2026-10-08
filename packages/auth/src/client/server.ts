@@ -1,6 +1,6 @@
 import "server-only";
 
-import { env } from "@fiery/config";
+import { env } from "@my-project/config";
 import { createServerClient, type CookieMethodsServer } from "@supabase/ssr";
 import { cookies } from "next/headers";
 import type { SupabaseSSRServerOptions } from "./ssr";

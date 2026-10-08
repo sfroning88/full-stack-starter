@@ -1,6 +1,6 @@
 "use client";
 
-import { Button, Input, Label } from "@fiery/ui";
+import { Button, Input, Label } from "@my-project/ui";
 import { PasswordField } from "./PasswordField";
 import { useSignup } from "../(hooks)/use-signup";
 

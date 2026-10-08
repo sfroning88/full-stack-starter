@@ -1,5 +1,5 @@
 {
-  "name": "@fiery/backend",
+  "name": "@my-project/backend",
   "private": true,
   "scripts": {
     "format": "ruff format .",

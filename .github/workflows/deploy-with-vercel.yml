@@ -8,7 +8,7 @@ on:
 
 jobs:
   build:
-    name: Build apps/dashboard
+    name: Build apps/frontend
     runs-on: ubuntu-latest
     permissions:
       contents: read
@@ -46,10 +46,10 @@ jobs:
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
 
-      - name: Build dashboard
-        run: pnpm exec turbo run build --filter=@fiery/dashboard
+      - name: Build frontend
+        run: pnpm exec turbo run build --filter=@my-project/frontend
 
       - name: Notify Vercel
         uses: vercel/repository-dispatch/actions/status@30f760c6640485cd92f8c785ef361382555fb712
         with:
-          name: "Vercel - fiery-spirit: deploy-with-vercel"
+          name: "Vercel - my-project: deploy-with-vercel"

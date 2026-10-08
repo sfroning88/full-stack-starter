@@ -5,13 +5,11 @@ on:
     pull_request:
         branches: [main, master]
         paths:
-        - "apps/ai/**"
         - "apps/backend/**"
-        - "apps/trainer/**"
         - "packages/python/**"
-        - "scripts/python-unit-tests.sh"
-        - "scripts/setup-python-venvs.sh"
-        - "scripts/setup-pytest-in-venvs.sh"
+        - "scripts/dev/python-unit-tests.sh"
+        - "scripts/dev/setup-python-venvs.sh"
+        - "scripts/dev/setup-pytest-in-venvs.sh"
         - ".github/workflows/python-unit-tests.yml"
 
 jobs:
@@ -33,12 +31,12 @@ jobs:
                 python-version: "3.13"
 
         -   name: Set up Python venvs
-            run: bash scripts/setup-python-venvs.sh
+            run: bash scripts/dev/setup-python-venvs.sh
 
         -   name: Set up Pytest
-            run: bash scripts/setup-pytest-in-venvs.sh
+            run: bash scripts/dev/setup-python-venvs.sh
 
         -   name: Run unit tests
-            run: bash scripts/python-unit-tests.sh all
+            run: bash scripts/dev/python-unit-tests.sh all
             env:
                 CI: true

@@ -1,5 +1,5 @@
 import { createBrowserClient } from "@supabase/ssr";
-import { env } from "@fiery/config";
+import { env } from "@my-project/config";
 import { authRoutes } from "../routes";
 
 const supabaseUrl = env.NEXT_PUBLIC_SUPABASE_URL;

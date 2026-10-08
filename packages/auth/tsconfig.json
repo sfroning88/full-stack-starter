@@ -1,5 +1,5 @@
 {
-  "extends": "@fiery/tsconfig/nextjs.json",
+  "extends": "@my-project/tsconfig/nextjs.json",
   "compilerOptions": {
     "strict": true,
     "noEmit": true

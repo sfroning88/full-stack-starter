@@ -2,13 +2,13 @@
 
 ## Supported Versions
 
-Only the current live deployment at [fiery-spirit.earth](https://fiery-spirit.earth) is supported.
+Only the current live deployment at [my-link.com](https://my-link.com) is supported.
 
 ## Reporting a Vulnerability
 
 If you find a security issue, please **do not open a public GitHub issue**.
 
-Email: **[skdf2012@gmail.com]**
+Email: **[name@gmail.com]**
 
 Include:
 

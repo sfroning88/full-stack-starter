@@ -1,5 +1,5 @@
 {
-  "name": "@fiery/tsconfig",
+  "name": "@my-project/tsconfig",
   "version": "0.0.1",
   "private": true,
   "files": [

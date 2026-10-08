@@ -1,7 +1,7 @@
 """
 Author: Sean Froning
-Created Date: 8.17.2026
-Worker runner for processing RQ jobs (queue name = WORKER_DOMAIN)
+Created Date: 10.7.2026
+Worker runner for processing RQ jobs
 """
 
 import os
@@ -15,10 +15,9 @@ sys.path.insert(0, str(_root))
 from redis import Redis
 from rq import Queue, Worker, SimpleWorker
 from dotenv import load_dotenv
-from fiery_python import config, logging, observability
+from my_python import config, logging
 
 logging.setup_structured_logging()
-observability.configure_sentry()
 logger = logging.get_logger(__name__)
 
 script_dir = os.path.dirname(os.path.abspath(__file__))

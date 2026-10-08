@@ -18,4 +18,4 @@ jobs:
         uses: actions/github-script@f28e40c7f34bde8b3046d885e986cb6290c5673b
         with:
           script: |
-            await require('./scripts/apply-pr-template.js')({ github, context });
+            await require('./scripts/github/apply-pr-template.js')({ github, context });

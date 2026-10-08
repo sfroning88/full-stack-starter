@@ -1,5 +1,5 @@
 {
-  "extends": "@fiery/tsconfig/base.json",
+  "extends": "@my-project/tsconfig/base.json",
   "compilerOptions": {
     "jsx": "react-jsx",
     "outDir": "dist",

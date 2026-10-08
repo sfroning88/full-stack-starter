@@ -1,5 +1,9 @@
 # Developer Setup
 
+Last updated: **October 2026**
+
+## Monorepo Setup
+
 For `TypeScript`, frontend apps, and `Prisma`:
 
 ```sh

@@ -1,6 +1,6 @@
 import "server-only";
 
-import { db } from "@fiery/db";
+import { db } from "@my-project/db";
 import type { SupabaseClient } from "@supabase/supabase-js";
 import {
   SignInResult,
@@ -8,8 +8,8 @@ import {
   SignupFields,
   SignupResult,
   CurrentUser,
-} from "@fiery/types";
-import { validateSignupFields } from "@fiery/utils";
+} from "@my-project/types";
+import { validateSignupFields } from "@my-project/utils";
 
 export const AuthService = {
   async signIn(params: {

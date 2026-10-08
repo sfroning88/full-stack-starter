@@ -1,26 +1,2 @@
-export {
-  VolcanoZone,
-  VolcanoActivitySource,
-  VolcanoAlertLevel,
-  TrainingSplit,
-  TrainingSampleSource,
-  TrainingSignal,
-  TrainingStage,
-  TrainingStatus,
-  TrainingPrecision,
-  TrainingSeismicLabel,
-  TrainingDeformationLabel,
-  TrainingWindow,
-  TrainingNormalize,
-  TrainingOptimizer,
-  TrainingRateSchedule,
-  TrainingSparsitySchedule,
-  TrainingPruningCriterion,
-  TrainingQuantizeMethod,
-  TrainingDeformationSourceType,
-  TrainingNoiseModel,
-  ModelTier,
-  ModelRole,
-  ModelMetricName,
-  InferenceAbstainReason,
-} from "../prisma/src/generated/prisma";
+export {} from // enums
+"../prisma/src/generated/prisma";

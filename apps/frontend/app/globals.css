@@ -1,0 +1,12 @@
+@import "tailwindcss";
+@source "../../../packages/ui/src";
+@import "@my-project/ui/theme.css";
+
+body {
+  min-height: 100%;
+  color: var(--color-foreground);
+  font-family: var(--font-sans);
+  background-color: var(--color-background);
+  background-image: var(--background-image-myproject-hero);
+  background-attachment: fixed;
+}

@@ -1,5 +1,5 @@
 {
-  "name": "@fiery/ui",
+  "name": "@my-project/ui",
   "version": "0.0.1",
   "private": true,
   "main": "./src/index.ts",
@@ -12,14 +12,14 @@
     "type-check": "tsc --noEmit"
   },
   "dependencies": {
-    "@fiery/db": "workspace:*",
-    "@fiery/types": "workspace:*",
-    "@fiery/utils": "workspace:*",
+    "@my-project/db": "workspace:*",
+    "@my-project/types": "workspace:*",
+    "@my-project/utils": "workspace:*",
     "@supabase/supabase-js": "^2.49.1",
     "iconoir-react": "^7.11.0"
   },
   "devDependencies": {
-    "@fiery/tsconfig": "workspace:*",
+    "@my-project/tsconfig": "workspace:*",
     "@types/react": "^19.0.0",
     "typescript": "5.9.3"
   },

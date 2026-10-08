@@ -4,4 +4,4 @@ export const AUTH_QUERY_KEYS = {
 
 export const FAILED_ATTEMPTS_LIMIT = 3;
 
-export const APP_ORIGIN = "https://fiery-spirit.earth";
+export const APP_ORIGIN = "https://my-project.earth";

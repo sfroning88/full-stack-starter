@@ -1,0 +1,7 @@
+# My Project
+
+A simple app with /home and /admin.
+
+Repo: https://github.com/sfroning88/my-project
+
+Do not scrape authenticated or utility routes: /admin, /auth, /no-access

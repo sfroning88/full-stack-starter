@@ -6,7 +6,7 @@ set -euo pipefail
 # Supabase-managed schemas (auth.*), so we diff schema files directly instead.
 #
 # From repo root: pnpm db:migrate <name>
-# Example: pnpm db:migrate add_expense_tables
+# Example: pnpm db:migrate add_my_tables
 
 NAME="${1:-}"
 if [[ -z "$NAME" || "$NAME" == *"/"* || "$NAME" == *".."* ]]; then

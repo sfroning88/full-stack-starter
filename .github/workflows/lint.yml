@@ -41,4 +41,4 @@ jobs:
       - name: Notify Vercel
         uses: vercel/repository-dispatch/actions/status@30f760c6640485cd92f8c785ef361382555fb712
         with:
-          name: "Vercel - fiery-spirit: lint"
+          name: "Vercel - my-project: lint"

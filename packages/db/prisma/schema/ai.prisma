@@ -1,0 +1,16 @@
+///////////////////////////////////////////////////////////////////////////////////////////
+//                                          AI                                           //
+///////////////////////////////////////////////////////////////////////////////////////////
+
+model MyClass {
+    id                          String @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+    message                     String?
+
+    createdAt                   DateTime @default(now()) @map("created_at") @db.Timestamptz(6)
+    updatedAt                   DateTime @default(now()) @updatedAt @map("updated_at") @db.Timestamptz(6)
+
+    @@map("my_class")
+    @@schema("ai")
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////

@@ -1,7 +1,7 @@
 "use client";
 
 import { Google } from "iconoir-react";
-import { Button } from "@fiery/ui";
+import { Button } from "@my-project/ui";
 import { useGoogleSso } from "../(hooks)/use-google-sso";
 
 export function GoogleSso() {

@@ -1,6 +1,6 @@
 # Test Orchestration
 
-Last updates: **August 2026**
+Last updates: **October 2026**
 
 ## e2e
 
@@ -9,20 +9,16 @@ packages/python/src/tests/
 ├── orchestrator.py
 ├── endpoints.py
 ├── helpers.py
-├── redis_clear.py
+├── container.py
 ├── presets/
-│ ├── predict.txt
-│ └── train.txt
 └── scripts/
-├── predict.py
-└── train.py
 ```
 
 All integration tests run through a single orchestrator at `packages/python`. The orchestrator spawns local `uvicorn` + `rq` processes per worker domain, seeds the local database, runs the selected workflow, then tears everything down.
 
 ```bash
 cd packages/python
-python -m src.e2e.orchestrator [train|predict]
+python -m src.e2e.orchestrator [**kwarg]
 ```
 
 **Setup (local only):**
@@ -30,11 +26,13 @@ python -m src.e2e.orchestrator [train|predict]
 1. Start Docker Desktop
 2. `pnpm use:local`
 3. `pnpm redis:setup`
-4. `cd packages/python`
-5. Activate venv: `python3 -m venv .venv && source .venv/bin/activate && pip install -e .`
-6. `python -m src.e2e.orchestrator [train|predict]`
+4. `pnpm db:setup`
+5. `pnpm prisma db push --accept-data-loss`
+6. `cd packages/python`
+7. Activate venv: `python3 -m venv .venv && source .venv/bin/activate && pip install -e .`
+8. `python -m src.e2e.orchestrator [train|predict]`
 
-**Teardown:** `pnpm redis:nuke`
+**Teardown:** `pnpm redis:nuke && pnpm db:nuke`
 
 ## Unit
 
@@ -67,7 +65,7 @@ Unit tests are pure and isolated. They never touch the database, Redis, S3, or a
 Run all unit tests in sequence or individually:
 
 ```sh
-./scripts/python-unit-tests.sh [ai|backend|packages|all]
+./scripts/dev/python-unit-tests.sh [ai|backend|packages|all]
 ```
 
-Each suite runs against its own `.venv`. A missing venv counts as a failure (run `./scripts/setup-python-venvs.sh` first). The script exits non-zero if any requested suite fails.
+Each suite runs against its own `.venv`. A missing venv counts as a failure (run `./scripts/dev/setup-python-venvs.sh` first). The script exits non-zero if any requested suite fails.

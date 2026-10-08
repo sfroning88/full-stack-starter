@@ -3,14 +3,14 @@
 import { redirect } from "next/navigation";
 import { revalidateTag } from "next/cache";
 import { z } from "zod";
-import { AuthService } from "@fiery/services";
+import { AuthService } from "@my-project/services";
 import {
   SignInInput,
   SignInResult,
   SignOutResult,
   SignupFields,
   SignupResult,
-} from "@fiery/types";
+} from "@my-project/types";
 import { createPublicAction, selfUserAction } from "../guards/action-guards";
 import { invalidateSessionCache } from "../guards/session";
 import { supabaseServerClient } from "../client/server";

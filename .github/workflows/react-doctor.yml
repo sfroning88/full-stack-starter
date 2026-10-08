@@ -4,7 +4,7 @@ on:
   pull_request:
     branches: [main, master]
     paths:
-      - "apps/dashboard/**"
+      - "apps/frontend/**"
       - "packages/**"
 
 jobs:
@@ -14,19 +14,19 @@ jobs:
       contents: read
       pull-requests: read
     outputs:
-      dashboard: ${{ steps.filter.outputs.dashboard }}
+      frontend: ${{ steps.filter.outputs.frontend }}
     steps:
       - uses: dorny/paths-filter@d1c1ffe0248fe513906c8e24db8ea791d46f8590
         id: filter
         with:
           filters: |
-            dashboard:
-              - 'apps/dashboard/**'
+            frontend:
+              - 'apps/frontend/**'
               - 'packages/**'
 
   react-doctor:
     needs: changes
-    if: needs.changes.outputs.dashboard == 'true'
+    if: needs.changes.outputs.frontend == 'true'
     runs-on: ubuntu-latest
     permissions:
       contents: read
@@ -52,13 +52,13 @@ jobs:
         run: pnpm install --frozen-lockfile
 
       - name: Generate Prisma Client
-        run: pnpm --filter @fiery/db run db:generate
+        run: pnpm --filter @my-project/db run db:generate
 
       - name: Build project list
         id: projects
         run: |
           list=""
-          [ "${{ needs.changes.outputs.dashboard }}" == "true" ] && list="${list}@fiery/dashboard,"
+          [ "${{ needs.changes.outputs.frontend }}" == "true" ] && list="${list}@my-project/frontend,"
           echo "projects=${list%,}" >> "$GITHUB_OUTPUT"
 
       - name: Install React Doctor with pinned oxlint
@@ -86,7 +86,7 @@ jobs:
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
-            await require('./scripts/post-react-doctor-comment.js')({ github, context });
+            await require('./scripts/github/post-react-doctor-comment.js')({ github, context });
 
       - name: Print score
         run: echo "Health score ${{ steps.doctor.outputs.score }}"

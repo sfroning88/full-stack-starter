@@ -1,4 +1,4 @@
-import { ApiServiceConfig } from "@fiery/types";
+import { ApiServiceConfig } from "@my-project/types";
 
 export class ApiService {
   protected config: ApiServiceConfig;

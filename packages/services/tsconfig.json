@@ -1,5 +1,5 @@
 {
-  "extends": "@fiery/tsconfig/node.json",
+  "extends": "@my-project/tsconfig/node.json",
   "compilerOptions": {
     "outDir": "dist",
     "types": ["node"]

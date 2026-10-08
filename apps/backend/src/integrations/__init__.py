@@ -1,5 +1,5 @@
-from .inference import router as InferenceRouter
+from .backend import router as BackendRouter
 
 __all__ = [
-    "InferenceRouter",
+    "BackendRouter",
 ]

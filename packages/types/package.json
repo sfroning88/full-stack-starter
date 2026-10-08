@@ -1,5 +1,5 @@
 {
-  "name": "@fiery/types",
+  "name": "@my-project/types",
   "version": "0.0.1",
   "private": true,
   "main": "./src/index.ts",
@@ -11,11 +11,11 @@
     "type-check": "tsc --noEmit"
   },
   "dependencies": {
-    "@fiery/db": "workspace:*",
+    "@my-project/db": "workspace:*",
     "@supabase/supabase-js": "^2.49.1"
   },
   "devDependencies": {
-    "@fiery/tsconfig": "workspace:*",
+    "@my-project/tsconfig": "workspace:*",
     "typescript": "5.9.3"
   }
 }

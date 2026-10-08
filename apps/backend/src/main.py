@@ -1,7 +1,7 @@
 """
 Author: Sean Froning
-Created Date: 8.17.2026
-Main entrypoint for Fiery backend API
+Created Date: 10.7.2026
+Main entrypoint for Backend API
 """
 
 import sys
@@ -13,28 +13,25 @@ from fastapi import FastAPI
 from slowapi import _rate_limit_exceeded_handler
 from slowapi.errors import RateLimitExceeded
 from slowapi.middleware import SlowAPIMiddleware
-from fiery_python import (
+from my_python import (
     config,
     exception,
     logging,
-    observability,
     middleware,
     limiter,
 )
 from core import health, lifespan
-from integrations import InferenceRouter
-from ml import router as ModelsRouter
+from integrations import BackendRouter
 
 # Setup structured logging
 logging.setup_structured_logging()
-observability.configure_sentry()
 logger = logging.get_logger(__name__)
 
 # Initialize FastAPI app
 app = FastAPI(
-    title="Focus backend API",
+    title="Backend API",
     lifespan=lifespan,
-    description="Backend API for Focus full stack app",
+    description="Backend API for full stack app",
     version="0.0.1",
 )
 
@@ -51,8 +48,7 @@ app.add_middleware(SlowAPIMiddleware)
 
 # Include routers
 app.include_router(health.router)
-app.include_router(InferenceRouter.router)
-app.include_router(ModelsRouter.router)
+app.include_router(BackendRouter.router)
 
 
 # Root endpoint
@@ -61,7 +57,7 @@ def root():
     """Root endpoint with basic API information and configuration status"""
 
     return {
-        "service": "Fiery backend API",
+        "service": "Backend API",
         "version": "0.0.1",
         "status": "running",
         "configuration": {

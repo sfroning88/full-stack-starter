@@ -1,11 +1,11 @@
 """
 Author: Sean Froning
-Created Date: 8.17.2026
+Created Date: 10.7.2026
 Unit tests for SchemaUtils field validators
 """
 
 import pytest
-from fiery_python.utils.schema import SchemaUtils
+from my_python.utils.schema import SchemaUtils
 
 
 def test_non_empty_string_trims():

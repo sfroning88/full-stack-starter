@@ -1,6 +1,6 @@
 """
 Author: Sean Froning
-Created Date: 8.17.2026
+Created Date: 10.7.2026
 Health check for FastAPI App
 """
 
@@ -8,7 +8,7 @@ import atexit
 from concurrent.futures import ThreadPoolExecutor, TimeoutError
 from fastapi import APIRouter
 from fastapi.responses import JSONResponse
-from fiery_python import db_pool, logging
+from my_python import db_pool, logging
 
 logger = logging.get_logger(__name__)
 

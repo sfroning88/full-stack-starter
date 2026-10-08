@@ -1,5 +1,5 @@
 {
-  "name": "@fiery/db",
+  "name": "@my-project/db",
   "version": "0.0.1",
   "private": true,
   "main": "./src/index.ts",
@@ -24,7 +24,7 @@
     "pg": "^8.13.1"
   },
   "devDependencies": {
-    "@fiery/tsconfig": "workspace:*",
+    "@my-project/tsconfig": "workspace:*",
     "@types/node": "^22.10.0",
     "@types/pg": "^8.11.10",
     "prisma": "^7.5.0"

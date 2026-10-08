@@ -1,7 +1,7 @@
 "use client";
 
 import { Windows } from "iconoir-react";
-import { Button } from "@fiery/ui";
+import { Button } from "@my-project/ui";
 import { useOutlookSso } from "../(hooks)/use-outlook-sso";
 
 export function OutlookSso() {

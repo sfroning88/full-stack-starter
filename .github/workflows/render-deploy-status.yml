@@ -5,8 +5,7 @@ on:
     branches: [main, master]
     paths:
       - "apps/backend/**"
-      - "apps/ai/**"
-      - "scripts/diff-python-check.sh"
+      - "scripts/dev/setup-python-venvs.sh"
 
 jobs:
   changes:
@@ -24,11 +23,9 @@ jobs:
           filters: |
             backend:
               - 'apps/backend/**'
-            ai:
-              - 'apps/ai/**'
 
-  render-fiery-backend-api:
-    name: Render (fiery-backend-api)
+  render-backend-api:
+    name: Render (backend-api)
     needs: changes
     if: needs.changes.outputs.backend == 'true'
     runs-on: ubuntu-latest
@@ -42,8 +39,8 @@ jobs:
           retries: 3
           wait: 10000
 
-  render-fiery-ai-api:
-    name: Render (fiery-ai-api)
+  render-backend-worker:
+    name: Render (backend-worker)
     needs: changes
     if: needs.changes.outputs.ai == 'true'
     runs-on: ubuntu-latest
@@ -53,21 +50,6 @@ jobs:
         continue-on-error: true
         with:
           render-token: ${{ secrets.RENDER_API_KEY }}
-          service-id: ${{ secrets.RENDER_AI_API_ID }}
-          retries: 3
-          wait: 10000
-
-  render-fiery-ai-worker:
-    name: Render (fiery-ai-worker)
-    needs: changes
-    if: needs.changes.outputs.ai == 'true'
-    runs-on: ubuntu-latest
-    steps:
-      - name: Wait for Render deployment
-        uses: bounceapp/render-action@667d896d04b8d9f8c3b1263970efae0948ab0da5
-        continue-on-error: true
-        with:
-          render-token: ${{ secrets.RENDER_API_KEY }}
-          service-id: ${{ secrets.RENDER_AI_WORKER_ID }}
+          service-id: ${{ secrets.RENDER_BACKEND_WORKER_ID }}
           retries: 5
           wait: 30000

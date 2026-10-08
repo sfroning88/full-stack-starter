@@ -1,13 +1,13 @@
 # Python Config
 
-Last updated: **September 2026**
+Last updated: **October 2026**
 
 ## Shared Python package
 
-Cross-worker infrastructure lives in **`packages/python`** as **`fiery_python`**.
+Cross-worker infrastructure lives in **`packages/python`** as **`my_python`**.
 The app pins it via **`-e ../../packages/python`** in `requirements.in` / `requirements.txt`.
 Use it for config, database pool, structured logging, Redis/RQ queue helpers, shared enums, shared utils, and FastAPI helpers.
-App-only wiring stays under **`src/core/`**, **`src/main.py`** composes FastAPI with `fiery_python` and those modules.
+App-only wiring stays under **`src/core/`**, **`src/main.py`** composes FastAPI with `my_python` and those modules.
 
 ## Deployment
 
@@ -19,7 +19,7 @@ Render **`buildFilter`** paths include **`packages/python/**`.
 
 Conventions:
 
-- **`APIRouter`** with **`prefix`**; auth via **`Depends(dependency.get_token_header)`** from **`fiery_python`**
+- **`APIRouter`** with **`prefix`**; auth via **`Depends(dependency.get_token_header)`** from **`my_python`**
 - Request and response models from **`integrations/*/schemas`**
 - **`response_model`** on route decorators where appropriate
 - **`observability`** with both `third_party_sentry` and `first_party_logging`
@@ -33,7 +33,7 @@ Routes are globally **rate limited** using [`slowapi`](https://github.com/lauren
 
 ## Services
 
-Import shared infrastructure from **`fiery_python`**, not from a local **`core`** package for those concerns.
+Import shared infrastructure from **`my_python`**, not from a local **`core`** package for those concerns.
 
 Patterns:
 
@@ -42,10 +42,10 @@ Patterns:
 
 ## Access Patterns
 
-- Default queue name: **`predictions-default`**
+- Default queue name: **`default`**
 - **`queue.get_connection()`** — Redis
 - **`queue.enqueue_jobs(jobs)`** — batch enqueue
-- **`SharedUtils`** — schema helpers from **`fiery_python`**
+- **`SharedUtils`** — schema helpers from **`my_python`**
 
 ## Libraries
 

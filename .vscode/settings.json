@@ -1,7 +1,7 @@
 {
   "eslint.workingDirectories": [
     {
-      "directory": "apps/dashboard",
+      "directory": "apps/frontend",
       "changeProcessCwd": true
     }
   ],

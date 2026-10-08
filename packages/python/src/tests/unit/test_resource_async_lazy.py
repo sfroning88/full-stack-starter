@@ -1,11 +1,11 @@
 """
 Author: Sean Froning
-Created Date: 8.17.2026
+Created Date: 10.7.2026
 Unit tests for AsyncLazyResource lazy initialization
 """
 
 import asyncio
-from fiery_python import AsyncLazyResource
+from my_python import AsyncLazyResource
 
 
 def test_async_lazy_builds_once():

@@ -1,10 +1,10 @@
 """
 Author: Sean Froning
-Created Date: 8.17.2026
+Created Date: 10.7.2026
 Unit tests for SyncLazyResource lazy initialization
 """
 
-from fiery_python import SyncLazyResource
+from my_python import SyncLazyResource
 
 
 def test_sync_lazy_builds_once():

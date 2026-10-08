@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { Eye, EyeClosed } from "iconoir-react";
-import { Input, Label } from "@fiery/ui";
+import { Input, Label } from "@my-project/ui";
 
 type PasswordFieldProps = {
   id: string;

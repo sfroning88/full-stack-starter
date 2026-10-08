@@ -28,10 +28,6 @@
 /out/
 *.next
 
-# maplibre
-/maplibre/
-apps/dashboard/public/maplibre/**
-
 # pyproject
 /build
 /build/**
@@ -72,10 +68,6 @@ supabase/.temp
 venv/
 *.pyc
 __pycache__/
-
-# MLflow
-/mlruns
-**/mlruns/**
 
 # Monorepo
 **/node_modules

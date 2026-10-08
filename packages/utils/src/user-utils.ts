@@ -1,4 +1,4 @@
-import { SignupResult } from "@fiery/types";
+import { SignupResult } from "@my-project/types";
 
 const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 

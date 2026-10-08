@@ -1,12 +1,12 @@
 """
 Author: Sean Froning
-Created Date: 8.17.2026
+Created Date: 10.7.2026
 Unit tests for UuidUtils deterministic generation
 """
 
 import uuid
 import pytest
-from fiery_python import UuidUtils
+from my_python import UuidUtils
 
 
 def test_deterministic_uuid_is_stable():

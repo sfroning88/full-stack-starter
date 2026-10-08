@@ -25,16 +25,16 @@ jobs:
         run: pnpm install --frozen-lockfile
 
       - name: Generate Prisma Client
-        run: pnpm -F @fiery/db db:generate
+        run: pnpm -F @my-project/db db:generate
 
       - name: Deploy Migrations
-        run: pnpm -F @fiery/db run db:deploy
+        run: pnpm -F @my-project/db run db:deploy
         env:
           DATABASE_URL: ${{ secrets.DATABASE_URL }}
           DIRECT_URL: ${{ secrets.DIRECT_URL }}
 
       - name: Verify migration status
-        run: pnpm -F @fiery/db exec prisma migrate status
+        run: pnpm -F @my-project/db exec prisma migrate status
         env:
           DATABASE_URL: ${{ secrets.DATABASE_URL }}
           DIRECT_URL: ${{ secrets.DIRECT_URL }}

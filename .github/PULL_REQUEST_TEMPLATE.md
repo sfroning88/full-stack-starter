@@ -1,6 +1,6 @@
-# Fiery Spirit Pull Request
+# My Project Pull Request
 
-Preview all changes using [the **VERCEL** preview link](https://vercel.com/sean-fronings-projects/fiery-spirit/deployments).
+Preview all changes using [the **VERCEL** preview link](https://vercel.com/my-name-projects/my-project/deployments).
 
 ## Changes
 

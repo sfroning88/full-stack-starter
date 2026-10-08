@@ -4,16 +4,8 @@ import type {
   LabelHTMLAttributes,
   ReactNode,
 } from "react";
-import { TrainingSignal, TrainingStage } from "@fiery/types";
 import { ThumbsDown, ThumbsUp } from "iconoir-react";
-import { iconClass, btnClass, selectClass, onSelectChange } from "./dynamics";
-import {
-  signalLabel,
-  sourceValues,
-  sourceLabel,
-  stageValues,
-  stageLabel,
-} from "./tokens";
+import { iconClass, btnClass } from "./dynamics";
 
 export function Dot({ className }: { className?: string }) {
   return (
@@ -144,94 +136,8 @@ export function FeedbackThanksIcon({
   const Icon = variant === "up" ? ThumbsUp : ThumbsDown;
   return (
     <Icon
-      className={`${iconClass} shrink-0 text-fiery-crimson-400 ${className ?? ""}`}
+      className={`${iconClass} shrink-0 text-myproject-gray-500 ${className ?? ""}`}
       strokeWidth={2}
     />
-  );
-}
-
-export function SignalDropdown({
-  value,
-  onChange,
-  className,
-  testId,
-}: {
-  value: TrainingSignal;
-  onChange: (value: TrainingSignal) => void;
-  className?: string;
-  testId?: string;
-}) {
-  return (
-    <select
-      aria-label="Signal"
-      data-testid={testId}
-      value={value}
-      onChange={onSelectChange(onChange)}
-      className={`${selectClass} ${className ?? ""}`}
-    >
-      {([TrainingSignal.deformation, TrainingSignal.seismic] as const).map(
-        (signal) => (
-          <option key={signal} value={signal}>
-            {signalLabel[signal]}
-          </option>
-        ),
-      )}
-    </select>
-  );
-}
-
-export function SourceDropdown({
-  value,
-  onChange,
-  className,
-  testId,
-}: {
-  value: (typeof sourceValues)[number];
-  onChange: (value: (typeof sourceValues)[number]) => void;
-  className?: string;
-  testId?: string;
-}) {
-  return (
-    <select
-      aria-label="Source"
-      data-testid={testId}
-      value={value}
-      onChange={onSelectChange(onChange)}
-      className={`${selectClass} ${className ?? ""}`}
-    >
-      {sourceValues.map((source) => (
-        <option key={source} value={source}>
-          {sourceLabel[source]}
-        </option>
-      ))}
-    </select>
-  );
-}
-
-export function StageDropdown({
-  value,
-  onChange,
-  className,
-  testId,
-}: {
-  value: TrainingStage;
-  onChange: (value: TrainingStage) => void;
-  className?: string;
-  testId?: string;
-}) {
-  return (
-    <select
-      aria-label="Stage"
-      data-testid={testId}
-      value={value}
-      onChange={onSelectChange(onChange)}
-      className={`${selectClass} ${className ?? ""}`}
-    >
-      {stageValues.map((stage) => (
-        <option key={stage} value={stage}>
-          {stageLabel[stage]}
-        </option>
-      ))}
-    </select>
   );
 }

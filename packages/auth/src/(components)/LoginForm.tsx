@@ -1,6 +1,6 @@
 "use client";
 
-import { Input, Label } from "@fiery/ui";
+import { Input, Label } from "@my-project/ui";
 import { useLogin } from "../(hooks)/use-login";
 import { GoogleSso } from "./GoogleSso";
 import { OutlookSso } from "./OutlookSso";

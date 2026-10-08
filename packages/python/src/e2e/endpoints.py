@@ -1,6 +1,6 @@
 """
 Author: Sean Froning
-Created Date: 8.22.2026
+Created Date: 10.7.2026
 Centralized route registry and endpoint test factories
 """
 
@@ -11,7 +11,6 @@ import requests
 
 WORKER_PORTS = {
     "backend": 8000,
-    "ai": 8001,
 }
 AUTH_TOKEN = "supersecretpassword"
 HEADERS = {"auth-token": AUTH_TOKEN, "Content-Type": "application/json"}

@@ -4,7 +4,7 @@ on:
     pull_request:
         branches: [main, master]
         paths:
-        - "apps/dashboard/**"
+        - "apps/frontend/**"
 
 jobs:
     playwright:
@@ -34,7 +34,7 @@ jobs:
             run: pnpm install --frozen-lockfile
 
         -   name: Generate Prisma Client
-            run: pnpm --filter @fiery/db run db:generate
+            run: pnpm --filter @my-project/db run db:generate
 
         -   name: Wait for Vercel preview deployment
             id: vercel
@@ -44,14 +44,14 @@ jobs:
             with:
                 github-token: ${{ secrets.GITHUB_TOKEN }}
                 script: |
-                    await require('./scripts/wait-for-vercel-preview.js')({ github, context, core });
+                    await require('./scripts/github/wait-for-vercel-preview.js')({ github, context, core });
 
         -   name: Install Chromium
-            run: pnpm --filter @fiery/dashboard exec playwright install chromium --with-deps
+            run: pnpm --filter @my-project/frontend exec playwright install chromium --with-deps
 
         -   name: Run smoke tests
             id: smoke
-            run: pnpm --filter @fiery/dashboard test:e2e
+            run: pnpm --filter @my-project/frontend test:e2e
             continue-on-error: true
             env:
                 CI: true
@@ -62,7 +62,7 @@ jobs:
 
         -   name: Summarize results
             if: always() && github.event_name == 'pull_request'
-            run: bash scripts/summarize-playwright-results.sh apps/dashboard/playwright-report/results.json /tmp/playwright-results.txt
+            run: bash scripts/github/summarize-playwright-results.sh apps/frontend/playwright-report/results.json /tmp/playwright-results.txt
 
         -   name: Post PR comment
             if: always() && github.event_name == 'pull_request'
@@ -70,7 +70,7 @@ jobs:
             with:
                 github-token: ${{ secrets.GITHUB_TOKEN }}
                 script: |
-                    await require('./scripts/post-playwright-comment.js')({ github, context, core });
+                    await require('./scripts/github/post-playwright-comment.js')({ github, context, core });
 
         -   name: Fail if smoke tests failed
             if: steps.smoke.outcome == 'failure'
@@ -81,5 +81,5 @@ jobs:
             uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
             with:
                 name: playwright-report
-                path: apps/dashboard/playwright-report/
+                path: apps/frontend/playwright-report/
                 retention-days: 3

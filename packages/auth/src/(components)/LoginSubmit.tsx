@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { Button } from "@fiery/ui";
+import { Button } from "@my-project/ui";
 
 type LoginSubmitProps = {
   isLoading: boolean;

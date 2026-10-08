@@ -1,6 +1,6 @@
-# Fiery AI+ML
+# Backend App
 
-FastAPI service for Fiery full stack AI/ML app.
+FastAPI service for a full stack app.
 
 ## Local development
 

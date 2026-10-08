@@ -1,7 +1,7 @@
 import "server-only";
 
-import { db } from "@fiery/db";
-import type { User } from "@fiery/db";
+import { db } from "@my-project/db";
+import type { User } from "@my-project/db";
 import type { User as SupabaseAuthUser } from "@supabase/supabase-js";
 
 export class AppUserProfileNotFoundError extends Error {
