@@ -35,6 +35,15 @@ To setup the venv:
 pnpm check:python-venvs
 ```
 
+After editing **`requirements.in`**:
+
+```sh
+cd apps/backend
+source .venv/bin/activate
+pip install pip-tools
+pip-compile -c constraints.txt -o requirements.txt requirements.in
+```
+
 To launch the backend:
 
 ```sh
