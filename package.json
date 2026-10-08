@@ -34,7 +34,7 @@
     "db:prisma": "pnpm --filter @my-project/db exec prisma",
     "db:studio": "pnpm --filter @my-project/db db:studio",
     "postinstall": "pnpm db:generate",
-    "check:python-format": "./scripts/cicd/check-python-format.sh",
+    "check:python-format": "./scripts/dev/check-python-format.sh",
     "check:migration-safety": "./scripts/cicd/check-migration-safety.sh",
     "check:unit-tests": "./scripts/dev/diff-python-tests.sh",
     "git:pre-commit": "sh scripts/husky/pre-commit.sh",
