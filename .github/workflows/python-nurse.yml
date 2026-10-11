@@ -6,6 +6,9 @@ on:
     paths:
       - "apps/backend/**"
       - "packages/python/**"
+      - "scripts/dev/python-setup.sh"
+      - "scripts/dev/python-unit-tests.sh"
+      - "scripts/dev/python-diff.sh"
 
 jobs:
   changes:
@@ -40,7 +43,7 @@ jobs:
     steps:
       - uses: sfroning88/python-nurse@35acbf37f25a91717207fe464a89f1adcc2b4cd9
         with:
-          app-path: ${{ matrix.worker == 'python' && 'packages/python' || format('apps/{0}', matrix.worker) }}
+          app-path: ${{ matrix.worker == 'packages' && 'packages/python' || format('apps/{0}', matrix.worker) }}
           github-token: ${{ secrets.GITHUB_TOKEN }}
           score-preset: structure
           vulture-ignore-names: request

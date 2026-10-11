@@ -5,5 +5,5 @@ cd "$ROOT" || exit 1
 
 pnpm lint-staged
 pnpm type-check
-pnpm check:migration-safety
-pnpm check:unit-tests
+pnpm local:migration-safety
+pnpm python:unit-tests
