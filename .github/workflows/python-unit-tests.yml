@@ -7,9 +7,9 @@ on:
         paths:
         - "apps/backend/**"
         - "packages/python/**"
+        - "scripts/dev/python-setup.sh"
         - "scripts/dev/python-unit-tests.sh"
-        - "scripts/dev/setup-python-venvs.sh"
-        - "scripts/dev/setup-pytest-in-venvs.sh"
+        - "scripts/dev/python-diff.sh"
         - ".github/workflows/python-unit-tests.yml"
 
 jobs:
@@ -30,11 +30,8 @@ jobs:
             with:
                 python-version: "3.13"
 
-        -   name: Set up Python venvs
-            run: bash scripts/dev/setup-python-venvs.sh
-
-        -   name: Set up Pytest
-            run: bash scripts/dev/setup-python-venvs.sh
+        -   name: Set up Python (requirements, venvs, pytest)
+            run: bash scripts/dev/python-setup.sh
 
         -   name: Run unit tests
             run: bash scripts/dev/python-unit-tests.sh all

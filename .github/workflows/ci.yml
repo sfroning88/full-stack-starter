@@ -44,7 +44,7 @@ jobs:
         run: pnpm lint
 
       - name: Build
-        run: bash scripts/cicd/ci-turbo-build.sh
+        run: bash scripts/dev/ci-turbo-build.sh
         env:
           CI_EVENT_NAME: ${{ github.event_name }}
           CI_BASE_REF: ${{ github.base_ref }}

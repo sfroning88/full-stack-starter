@@ -23,21 +23,40 @@ run_app() {
   echo ""
   echo "===== $name unit tests ====="
   if [ ! -x "$ROOT/apps/$name/.venv/bin/python" ]; then
-    echo "Missing venv: apps/$name/.venv (run scripts/dev/setup-python-venvs.sh)" >&2
+    echo "Missing venv: apps/$name/.venv (run scripts/dev/python-setup.sh)" >&2
     STATUS=1
     return
   fi
   ( cd "$ROOT/apps/$name" && .venv/bin/python -m pytest tests/ -q ) || STATUS=1
 }
 
+ensure_package_venv() {
+  pip="$ROOT/packages/python/.venv/bin/pip"
+  python="$ROOT/packages/python/.venv/bin/python"
+  if "$python" -c "import fiery_python, dotenv" 2>/dev/null; then
+    return 0
+  fi
+  echo "packages/python .venv is missing editable install (only pytest?). Installing .[dev]..." >&2
+  (
+    cd "$ROOT/packages/python" || exit 1
+    "$pip" install -q --upgrade pip
+    "$pip" install -e ".[dev]"
+  )
+}
+
 run_python() {
   echo ""
-  echo "===== python (my_python) unit tests ====="
+  echo "===== python (fiery_python) unit tests ====="
   if [ ! -x "$ROOT/packages/python/.venv/bin/python" ]; then
-    echo "Missing venv: packages/python/.venv (run scripts/dev/setup-python-venvs.sh)" >&2
+    echo "Missing venv: packages/python/.venv (run pnpm python:setup packages)" >&2
     STATUS=1
     return
   fi
+  ensure_package_venv || {
+    echo "Failed to install packages/python dependencies (run pnpm python:setup packages)" >&2
+    STATUS=1
+    return
+  }
   ( cd "$ROOT/packages/python" && .venv/bin/python -m pytest src/tests/unit -q ) || STATUS=1
 }
 
@@ -49,8 +68,8 @@ run_target() {
 }
 
 if [ "$TARGET" = "all" ]; then
-  for t in backend packages; do
-    run_target "$t"
+  for target in backend packages; do
+    run_target "$target"
   done
 else
   run_target "$TARGET"
