@@ -24,16 +24,12 @@ if [ "$MODE" = "format" ]; then
   exit 0
 fi
 
-AI=0
 BACKEND=0
-TRAINER=0
 PACKAGES=0
 
 mark_path() {
   case "$1" in
-    apps/ai/*) AI=1 ;;
     apps/backend/*) BACKEND=1 ;;
-    apps/trainer/*) TRAINER=1 ;;
     packages/python/*) PACKAGES=1 ;;
   esac
 }
@@ -47,8 +43,6 @@ if [ "$MODE" = "check" ]; then
     mark_path "$path"
   done
   [ "$BACKEND" = 1 ] && echo "backend"
-  [ "$AI" = 1 ] && echo "ai"
-  [ "$TRAINER" = 1 ] && echo "trainer"
   [ "$PACKAGES" = 1 ] && echo "packages"
   exit 0
 fi
@@ -61,15 +55,11 @@ for path in $STAGED; do
 done
 
 if [ "$PACKAGES" = 1 ]; then
-  AI=1
   BACKEND=1
-  TRAINER=1
 fi
 
 TARGETS=""
-[ "$AI" = 1 ] && TARGETS="${TARGETS} ai"
 [ "$BACKEND" = 1 ] && TARGETS="${TARGETS} backend"
-[ "$TRAINER" = 1 ] && TARGETS="${TARGETS} trainer"
 [ "$PACKAGES" = 1 ] && TARGETS="${TARGETS} packages"
 TARGETS=$(echo "$TARGETS" | xargs)
 
