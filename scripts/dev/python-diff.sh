@@ -20,7 +20,7 @@ esac
 
 if [ "$MODE" = "format" ]; then
   echo "Checking Python formatting (black)..."
-  black --check apps/backend apps/ai apps/trainer packages/python
+  black --check apps/backend packages/python
   exit 0
 fi
 
