@@ -21,6 +21,11 @@ I'm always looking to apply build full stack to solve problems that actually mat
 | [`repo/TESTS.md`](docs/repo/TESTS.md)                                 | Python e2e orchestration              |
 | [`repo/VERCEL.md`](docs/repo/VERCEL.md)                               | Vercel ↔ Supabase connection          |
 
+## Analytics
+
+This application uses a single **anonymous** cookie to track general web analytics using [**PostHog**](https://posthog.com/).
+Tracking is only used for page visits and basic events.
+
 ## License
 
 ```md

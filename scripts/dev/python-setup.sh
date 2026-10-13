@@ -14,14 +14,14 @@ else
 fi
 
 usage() {
-  echo "Usage: $0 [ai|backend|trainer|packages]" >&2
+  echo "Usage: $0 [backend|packages]" >&2
   echo "  No argument runs full setup (compile requirements, venvs, pytest)." >&2
   exit 1
 }
 
 TARGET="${1:-all}"
 case "$TARGET" in
-  ai | backend | trainer | packages | all) ;;
+  backend | packages | all) ;;
   *) usage ;;
 esac
 
@@ -91,7 +91,7 @@ if [ "$TARGET" = "all" ]; then
   [ -d packages/python ] && setup_package_venv
 else
   case "$TARGET" in
-    ai | backend | trainer) setup_app "$TARGET" ;;
+    backend ) setup_app "$TARGET" ;;
     packages) [ -d packages/python ] && setup_package_venv ;;
   esac
 fi

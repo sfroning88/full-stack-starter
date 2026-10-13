@@ -17,6 +17,7 @@ from my_python import (
     config,
     exception,
     logging,
+    observability,
     middleware,
     limiter,
 )
@@ -25,6 +26,7 @@ from integrations import BackendRouter
 
 # Setup structured logging
 logging.setup_structured_logging()
+observability.configure_sentry()
 logger = logging.get_logger(__name__)
 
 # Initialize FastAPI app

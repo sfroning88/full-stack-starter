@@ -8,6 +8,7 @@ from .core import (
     config,
     db_pool,
     logging,
+    observability,
     queue,
 )
 from .enums import (
@@ -46,6 +47,7 @@ __all__ = [
     "config",
     "db_pool",
     "logging",
+    "observability",
     "queue",
     "PoolFetch",
     "DomainOption",
