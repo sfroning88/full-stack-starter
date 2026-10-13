@@ -6,7 +6,7 @@ _schema, _name = MY_TABLE
 
 QUERY_DB_POOL = sql.SQL("""
     SELECT my_class.id::text,
-        my_class.message,
+        my_class.message
     FROM {table}
     WHERE my_class.id IS NOT NULL
     ORDER BY my_class.updated_at DESC
@@ -15,7 +15,7 @@ QUERY_DB_POOL = sql.SQL("""
 
 QUERY_SQL_ALCHEMY = text(f"""
     SELECT my_class.id::text,
-        my_class.message,
+        my_class.message
     FROM {_schema}.{_name}
     WHERE my_class.id IS NOT NULL
     ORDER BY my_class.updated_at DESC

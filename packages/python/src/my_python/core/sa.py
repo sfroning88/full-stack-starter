@@ -27,7 +27,7 @@ class _SqlAlchemy:
     def _clean_pool_url(self, url: str) -> Tuple[str, bool]:
         """Clean pool url and pgbouncer params"""
         parsed = urlparse(url)
-        qs = parse_qs(parsed.query)
+        qs = parse_qs(parsed.query, keep_blank_values=True)
         pooled = "pgbouncer" in qs or parsed.port == 6543
         qs.pop("pgbouncer", None)
         new_q = urlencode(qs, doseq=True)

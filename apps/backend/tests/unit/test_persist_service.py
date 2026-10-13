@@ -35,7 +35,8 @@ def test_select_last_message_using_db_pool_maps_row():
     assert run.call_args.kwargs["error_event"] == "fetch_last_message_failed"
     assert isinstance(result, MyClass)
     assert result.id == "msg-1"
-    assert result.message == "hello"
+    message = result.message if result else "None"
+    assert message == "hello"
 
 
 def test_select_last_message_using_db_pool_returns_none_when_empty():
@@ -45,7 +46,8 @@ def test_select_last_message_using_db_pool_returns_none_when_empty():
     ) as run:
         result = PersistService.select_last_message_using_db_pool()
     run.assert_called_once()
-    assert result is None
+    message = result.message if result else "None"
+    assert message == "None"
 
 
 def test_select_last_message_using_sql_alchemy_maps_row():
@@ -59,7 +61,8 @@ def test_select_last_message_using_sql_alchemy_maps_row():
     session.execute.assert_called_once()
     assert isinstance(result, MyClass)
     assert result.id == "msg-1"
-    assert result.message == "hello"
+    message = result.message if result else "None"
+    assert message == "hello"
 
 
 def test_select_last_message_using_sql_alchemy_returns_none_when_empty():
@@ -70,4 +73,5 @@ def test_select_last_message_using_sql_alchemy_returns_none_when_empty():
     ):
         result = PersistService.select_last_message_using_sql_alchemy()
     session.execute.assert_called_once()
-    assert result is None
+    message = result.message if result else "None"
+    assert message == "None"

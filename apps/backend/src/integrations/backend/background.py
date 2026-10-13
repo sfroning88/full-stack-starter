@@ -22,21 +22,27 @@ class BackgroundJobs:
             my_class_sql_alchemy = (
                 PersistService.select_last_message_using_sql_alchemy()
             )
+            my_class_db_pool_message = (
+                my_class_db_pool.message if my_class_db_pool else "None"
+            )
+            my_class_sql_alchemy_message = (
+                my_class_sql_alchemy.message if my_class_sql_alchemy else "None"
+            )
             if not my_class_db_pool and not my_class_sql_alchemy:
                 logger.warning("no message", request_id=request_id)
-            elif my_class_db_pool.message != my_class_sql_alchemy.message:
+            elif my_class_db_pool_message != my_class_sql_alchemy_message:
                 logger.warning(
                     "message mismatch",
                     request_id=request_id,
-                    db_pool_message=my_class_db_pool.message,
-                    sql_alchemy_message=my_class_sql_alchemy.message,
+                    db_pool_message=my_class_db_pool_message,
+                    sql_alchemy_message=my_class_sql_alchemy_message,
                 )
             else:
                 logger.info(
                     "message fetched",
                     request_id=request_id,
-                    db_pool_message=my_class_db_pool.message,
-                    sql_alchemy_message=my_class_sql_alchemy.message,
+                    db_pool_message=my_class_db_pool_message,
+                    sql_alchemy_message=my_class_sql_alchemy_message,
                 )
             logger.info(
                 "backend_message_completed",
