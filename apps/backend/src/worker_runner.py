@@ -15,9 +15,10 @@ sys.path.insert(0, str(_root))
 from redis import Redis
 from rq import Queue, Worker, SimpleWorker
 from dotenv import load_dotenv
-from my_python import config, logging
+from my_python import config, logging, observability
 
 logging.setup_structured_logging()
+observability.configure_sentry()
 logger = logging.get_logger(__name__)
 
 script_dir = os.path.dirname(os.path.abspath(__file__))

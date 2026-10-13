@@ -6,6 +6,7 @@ App Exception handling for FastAPI App
 
 from fastapi import FastAPI, Request
 from fastapi.responses import JSONResponse
+from sentry_sdk import capture_exception
 from ..core import logging
 from .error import error
 
@@ -22,6 +23,7 @@ class _Exception:
             log_fn = logger.warning
             if exc.status_code >= 500:
                 log_fn = logger.error
+                capture_exception(exc)
             log_fn(
                 "app_error",
                 error_type=exc.error_type,

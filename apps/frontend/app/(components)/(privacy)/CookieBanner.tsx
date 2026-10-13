@@ -1,6 +1,7 @@
 "use client";
 
 import { createPortal } from "react-dom";
+import posthog from "posthog-js";
 import { toast } from "sonner";
 import { useCookieBannerDismissed } from "@/app/(hooks)/use-cookie-banner-dismissed";
 import { useMediaQuery } from "@/app/(hooks)/use-media-query";
@@ -10,6 +11,7 @@ import {
   COOKIE_BANNER_SYNC_EVENT,
   MOBILE_BREAKPOINT,
 } from "@/lib/constants";
+import { POSTHOG_EVENTS } from "@my-project/types";
 
 export function CookieBanner() {
   const isMobile = !useMediaQuery(`(min-width: ${MOBILE_BREAKPOINT}px)`, true);
@@ -20,6 +22,7 @@ export function CookieBanner() {
       localStorage.setItem(COOKIE_BANNER_DISMISSED_KEY, "true");
       window.dispatchEvent(new Event(COOKIE_BANNER_SYNC_EVENT));
     }
+    posthog.capture(POSTHOG_EVENTS.cookie_banner_dismissed);
     toast.success("Cookie notice dismissed.");
   };
 
