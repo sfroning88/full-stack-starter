@@ -106,7 +106,11 @@ def test_register_model_uses_run_uri():
 
 
 def test_log_metrics_casts_values():
-    with patch("my_python.core.mlflow._mlflow.log_metrics") as log_metrics:
+    with (
+        patch.object(mlflow, "get_client", return_value=MagicMock()) as get_client,
+        patch("my_python.core.mlflow._mlflow.log_metrics") as log_metrics,
+    ):
         mlflow.log_metrics({"loss": 1})
 
+    get_client.assert_called_once()
     log_metrics.assert_called_once_with({"loss": 1.0})

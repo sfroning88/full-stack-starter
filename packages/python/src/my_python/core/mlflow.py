@@ -49,17 +49,21 @@ class _MLFlow:
         return _mlflow.start_run(run_name=run_name, **kwargs)
 
     def log_params(self, params: dict[str, Any]) -> None:
+        self.get_client()
         _mlflow.log_params(params)
 
     def log_metrics(self, metrics: dict[str, float]) -> None:
+        self.get_client()
         _mlflow.log_metrics({key: float(value) for key, value in metrics.items()})
 
     def set_tags(self, tags: dict[str, Any]) -> None:
+        self.get_client()
         _mlflow.set_tags(
             {key: "" if value is None else str(value) for key, value in tags.items()}
         )
 
     def log_dict(self, payload: dict[str, Any], artifact_file: str) -> None:
+        self.get_client()
         _mlflow.log_dict(payload, artifact_file)
 
     def register_model(self, run_id: str, artifact_path: str, name: str) -> Any:
