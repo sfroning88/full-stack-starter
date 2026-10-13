@@ -82,7 +82,7 @@ setup_app() {
 if [ "$TARGET" = "all" ]; then
   for dir in apps/*; do
     [ -f "$dir/requirements.in" ] || continue
-    compile_requirements "$d"
+    compile_requirements "$dir"
   done
   for dir in apps/*; do
     [ -f "$dir/requirements.txt" ] || continue

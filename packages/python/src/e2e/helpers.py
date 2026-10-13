@@ -110,6 +110,8 @@ def ensure_modal_deployed(root: str) -> None:
         return
     modal_dir = os.path.join(root, "apps", "compute")
     modal = shutil.which("modal")
+    if modal is None:
+        raise RuntimeError("modal CLI not found in PATH")
     command = [modal, "deploy", "modal_app.py"]
     print(f"Deploying my-project from {modal_dir}")
     result = subprocess.run(

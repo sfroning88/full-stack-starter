@@ -5,6 +5,7 @@ Modal app deployment
 """
 
 import modal
+from pathlib import Path
 from typing import Dict
 
 app = modal.App("my-project")
@@ -19,7 +20,7 @@ image = (
         "huggingface_hub==1.16.1",
     )
     .add_local_dir(
-        "../../packages/python",
+        str(Path(__file__).resolve().parents[2] / "packages" / "python"),
         remote_path="/opt/packages/python",
         copy=True,
         ignore=[

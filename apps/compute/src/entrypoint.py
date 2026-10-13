@@ -8,7 +8,7 @@ import sys
 from pathlib import Path
 from typing import Dict
 
-sys.path.insert(0, str(Path(__file__)))
+sys.path.insert(0, str(Path(__file__).resolve().parent))
 
 from my_python import logging
 

@@ -4,7 +4,7 @@
   "scripts": {
     "format": "ruff format .",
     "lint": "ruff check .",
-    "build": "bash ./scripts/dev/ci.sh",
+    "build": "bash ./scripts/ci.sh",
     "deploy": "modal deploy modal_app.py",
     "run": "modal run modal_app.py"
   }
