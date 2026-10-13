@@ -17,7 +17,7 @@ logging.setup_structured_logging()
 logger = logging.get_logger(__name__)
 
 
-def entrypoint(spec: Dict) -> Dict:
+def entrypoint(_spec: Dict) -> Dict:
     logger.info("modal_app_launched")
     return {
         "ok": True,
