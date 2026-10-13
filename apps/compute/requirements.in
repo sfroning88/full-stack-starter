@@ -1,0 +1,5 @@
+# Python package
+-e ../../packages/python
+
+# Compute
+modal>=1.5.4

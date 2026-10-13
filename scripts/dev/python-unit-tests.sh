@@ -5,14 +5,14 @@ ROOT="$(CDPATH= cd -- "$(dirname "$0")/../.." && pwd)"
 cd "$ROOT"
 
 usage() {
-  echo "Usage: $0 [backend|packages]" >&2
+  echo "Usage: $0 [backend|compute|packages]" >&2
   echo "  No argument runs all suites sequentially." >&2
   exit 1
 }
 
 TARGET="${1:-all}"
 case "$TARGET" in
-  backend | packages | all) ;;
+  backend | compute | packages | all) ;;
   *) usage ;;
 esac
 
@@ -33,7 +33,7 @@ run_app() {
 ensure_package_venv() {
   pip="$ROOT/packages/python/.venv/bin/pip"
   python="$ROOT/packages/python/.venv/bin/python"
-  if "$python" -c "import fiery_python, dotenv" 2>/dev/null; then
+  if "$python" -c "import my_python, dotenv" 2>/dev/null; then
     return 0
   fi
   echo "packages/python .venv is missing editable install (only pytest?). Installing .[dev]..." >&2
@@ -46,7 +46,7 @@ ensure_package_venv() {
 
 run_python() {
   echo ""
-  echo "===== python (fiery_python) unit tests ====="
+  echo "===== python (my_python) unit tests ====="
   if [ ! -x "$ROOT/packages/python/.venv/bin/python" ]; then
     echo "Missing venv: packages/python/.venv (run pnpm python:setup packages)" >&2
     STATUS=1
@@ -62,13 +62,13 @@ run_python() {
 
 run_target() {
   case "$1" in
-    backend ) run_app "$1" ;;
+    backend | compute) run_app "$1" ;;
     packages) run_python ;;
   esac
 }
 
 if [ "$TARGET" = "all" ]; then
-  for target in backend packages; do
+  for target in backend compute packages; do
     run_target "$target"
   done
 else

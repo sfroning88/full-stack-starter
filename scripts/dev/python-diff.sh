@@ -20,16 +20,18 @@ esac
 
 if [ "$MODE" = "format" ]; then
   echo "Checking Python formatting (black)..."
-  black --check apps/backend packages/python
+  black --check apps/backend apps/compute packages/python
   exit 0
 fi
 
 BACKEND=0
+COMPUTE=0
 PACKAGES=0
 
 mark_path() {
   case "$1" in
     apps/backend/*) BACKEND=1 ;;
+    apps/compute/*) COMPUTE=1 ;;
     packages/python/*) PACKAGES=1 ;;
   esac
 }
@@ -43,6 +45,7 @@ if [ "$MODE" = "check" ]; then
     mark_path "$path"
   done
   [ "$BACKEND" = 1 ] && echo "backend"
+  [ "$COMPUTE" = 1 ] && echo "compute"
   [ "$PACKAGES" = 1 ] && echo "packages"
   exit 0
 fi
@@ -56,10 +59,12 @@ done
 
 if [ "$PACKAGES" = 1 ]; then
   BACKEND=1
+  COMPUTE=1
 fi
 
 TARGETS=""
 [ "$BACKEND" = 1 ] && TARGETS="${TARGETS} backend"
+[ "$COMPUTE" = 1 ] && TARGETS="${TARGETS} compute"
 [ "$PACKAGES" = 1 ] && TARGETS="${TARGETS} packages"
 TARGETS=$(echo "$TARGETS" | xargs)
 

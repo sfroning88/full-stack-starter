@@ -55,7 +55,12 @@ def _find_root_env() -> str:
 load_dotenv(_find_root_env())
 
 from .endpoints import WORKER_PORTS, worker_url
-from .helpers import TESTS_DIR, seed_message_into_table, wait_for_health
+from .helpers import (
+    TESTS_DIR,
+    seed_message_into_table,
+    wait_for_health,
+    ensure_modal_deployed,
+)
 from .container import clear_redis_queue, clear_postgres_db
 
 MONOREPO_MARKER = "pnpm-workspace.yaml"
@@ -230,15 +235,11 @@ def main() -> None:
         clear_redis_queue()
         clear_postgres_db()
         seed_message_into_table()
+        ensure_modal_deployed(root)
 
         print(f"\n{'=' * 60}")
         print(f"Running {workflow} workflow")
         print(f"{'=' * 60}\n")
-
-        if workflow == "train":
-            from .helpers import ensure_trainer_deployed
-
-            ensure_trainer_deployed(root)
 
         _run_workflow(
             workflow,

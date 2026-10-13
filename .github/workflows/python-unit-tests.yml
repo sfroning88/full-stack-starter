@@ -6,6 +6,7 @@ on:
         branches: [main, master]
         paths:
         - "apps/backend/**"
+        - "apps/compute/**"
         - "packages/python/**"
         - "scripts/dev/python-setup.sh"
         - "scripts/dev/python-unit-tests.sh"
