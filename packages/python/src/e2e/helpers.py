@@ -7,18 +7,13 @@ Shared utility helpers for tests
 import os
 import time as Time
 from typing import List, Optional, Tuple
-
 import requests
 from psycopg2 import sql
 from rq.job import Job
-
-from my_python import (
-    db_pool,
-    queue,
-    PoolFetch,
-    MyClass,
-    MY_TABLE,
-)
+import shutil
+import subprocess
+from my_python import db_pool, queue
+from my_python import MyClass, MY_TABLE
 
 TESTS_DIR = os.path.dirname(__file__)
 
@@ -106,6 +101,28 @@ def wait_for_jobs(job_ids: List[str], timeout: Optional[int] = 6000) -> None:
             failures.append(job_id)
     if failures:
         raise RuntimeError(f"{len(failures)} job(s) did not complete: {failures}")
+
+
+def ensure_modal_deployed(root: str) -> None:
+    """Deploy and spawn apps/compute"""
+    if os.environ.get("MODAL_SKIP_DEPLOY") == "1":
+        print("Skipping Modal deploy (MODAL_SKIP_DEPLOY=1)")
+        return
+    modal_dir = os.path.join(root, "apps", "compute")
+    modal = shutil.which("modal")
+    command = [modal, "deploy", "modal_app.py"]
+    print(f"Deploying my-project from {modal_dir}")
+    result = subprocess.run(
+        command,
+        cwd=modal_dir,
+        env=os.environ.copy(),
+        check=False,
+    )
+    if result.returncode != 0:
+        raise RuntimeError(
+            "Modal deploy failed; token, My-Environment secret, "
+            "and modal CLI must already exist in this workspace"
+        )
 
 
 _SEED_MESSAGE_SQL = sql.SQL("""

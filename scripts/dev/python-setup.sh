@@ -14,14 +14,14 @@ else
 fi
 
 usage() {
-  echo "Usage: $0 [backend|packages]" >&2
+  echo "Usage: $0 [backend|compute|packages]" >&2
   echo "  No argument runs full setup (compile requirements, venvs, pytest)." >&2
   exit 1
 }
 
 TARGET="${1:-all}"
 case "$TARGET" in
-  backend | packages | all) ;;
+  backend | compute | packages | all) ;;
   *) usage ;;
 esac
 
@@ -80,18 +80,18 @@ setup_app() {
 }
 
 if [ "$TARGET" = "all" ]; then
-  for d in apps/*; do
-    [ -f "$d/requirements.in" ] || continue
+  for dir in apps/*; do
+    [ -f "$dir/requirements.in" ] || continue
     compile_requirements "$d"
   done
-  for d in apps/*; do
-    [ -f "$d/requirements.txt" ] || continue
-    setup_backend_venv "$d"
+  for dir in apps/*; do
+    [ -f "$dir/requirements.txt" ] || continue
+    setup_backend_venv "$dir"
   done
   [ -d packages/python ] && setup_package_venv
 else
   case "$TARGET" in
-    backend ) setup_app "$TARGET" ;;
+    backend | compute) setup_app "$TARGET" ;;
     packages) [ -d packages/python ] && setup_package_venv ;;
   esac
 fi

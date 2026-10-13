@@ -59,6 +59,8 @@ importers:
 
   apps/backend: {}
 
+  apps/compute: {}
+
   apps/frontend:
     dependencies:
       '@my-project/auth':

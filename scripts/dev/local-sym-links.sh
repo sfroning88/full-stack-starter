@@ -1,6 +1,6 @@
 #!/bin/sh
 set -e
 cd "$(dirname "$0")/.."
-for d in apps/frontend apps/backend; do
-  [ -d "$d" ] && ln -sf ../../../.env "$d/.env"
+for dir in apps/frontend apps/backend apps/compute; do
+  [ -d "$dir" ] && ln -sf ../../../.env "$dir/.env"
 done
