@@ -3,6 +3,7 @@ from .db import db_pool
 from .logging import logging
 from .observability import observability
 from .queue import queue
+from .sa import sa
 
 __all__ = [
     "config",
@@ -10,4 +11,5 @@ __all__ = [
     "logging",
     "observability",
     "queue",
+    "sa",
 ]

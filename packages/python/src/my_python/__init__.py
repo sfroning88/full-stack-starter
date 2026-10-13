@@ -10,6 +10,7 @@ from .core import (
     logging,
     observability,
     queue,
+    sa,
 )
 from .enums import (
     PoolFetch,
@@ -49,6 +50,7 @@ __all__ = [
     "logging",
     "observability",
     "queue",
+    "sa",
     "PoolFetch",
     "DomainOption",
     "dependency",

@@ -18,11 +18,32 @@ class BackgroundJobs:
         """Background: (does nothing)"""
         logging.bind_job_context(request_id=request_id)
         try:
-            my_class = PersistService.select_last_message()
-            if not my_class:
-                print("(no message)")
+            my_class_db_pool = PersistService.select_last_message_using_db_pool()
+            my_class_sql_alchemy = (
+                PersistService.select_last_message_using_sql_alchemy()
+            )
+            my_class_db_pool_message = (
+                my_class_db_pool.message if my_class_db_pool else "None"
+            )
+            my_class_sql_alchemy_message = (
+                my_class_sql_alchemy.message if my_class_sql_alchemy else "None"
+            )
+            if not my_class_db_pool and not my_class_sql_alchemy:
+                logger.warning("no message", request_id=request_id)
+            elif my_class_db_pool_message != my_class_sql_alchemy_message:
+                logger.warning(
+                    "message mismatch",
+                    request_id=request_id,
+                    db_pool_message=my_class_db_pool_message,
+                    sql_alchemy_message=my_class_sql_alchemy_message,
+                )
             else:
-                print(my_class.message)
+                logger.info(
+                    "message fetched",
+                    request_id=request_id,
+                    db_pool_message=my_class_db_pool_message,
+                    sql_alchemy_message=my_class_sql_alchemy_message,
+                )
             logger.info(
                 "backend_message_completed",
                 request_id=request_id,

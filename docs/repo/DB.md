@@ -12,6 +12,13 @@ Connection and schema is managed by [`@my-project/db`](packages/db):
 - CLI uses **`DIRECT_URL`** to run `prisma/migrations`
 - Apps use **`DATABASE_URL`** to manage a _pooled connection_
 
+## Connection Options
+
+The codebase supports two `Python` access patterns:
+
+- `db_pool` for using the _pooled connection_
+- `sa` for using a [`sql_alchemy`](https://docs.sqlalchemy.org/en/21/) manager
+
 ## Supabase Auth
 
 Supabase **Auth** manages _security and IAM_:
