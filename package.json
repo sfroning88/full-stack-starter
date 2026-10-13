@@ -29,6 +29,7 @@
     "db:down": "./scripts/dev/local-db.sh down",
     "db:nuke": "./scripts/dev/local-db.sh nuke",
     "db:status": "./scripts/dev/local-db.sh status",
+    "db:mlflow": "./ops/mlflow-setup.py",
     "db:generate": "pnpm --filter @my-project/db db:generate",
     "db:migrate": "pnpm --filter @my-project/db db:migrate",
     "db:deploy": "pnpm --filter @my-project/db db:deploy",

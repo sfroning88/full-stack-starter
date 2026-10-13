@@ -1,3 +1,6 @@
+-- CreateSchema 
+CREATE SCHEMA IF NOT EXISTS "mlflow";
+
 -- CreateSchema
 CREATE SCHEMA IF NOT EXISTS "ai";
 

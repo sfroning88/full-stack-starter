@@ -69,6 +69,10 @@ venv/
 *.pyc
 __pycache__/
 
+# MLflow
+/mlruns
+**/mlruns/**
+
 # Monorepo
 **/node_modules
 **/.turbo
